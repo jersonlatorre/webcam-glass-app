@@ -1,10 +1,11 @@
 {
-  "dest": "release-builds/",
-  "icon": "assets/icons/1024x1024.png",
-  "categories": [
-    "Utility"
-  ],
-  "lintianOverrides": [
-    "changelog-file-missing-in-native-package"
-  ]
+	"dest": "release-builds/",
+	"icon": "assets/icons/1024x1024.png",
+	"options": {
+		"name": "glass",
+    "productName": "Glass",
+    "bin": "Glass"
+	},
+	"categories": [ "Utility" ],
+	"lintianOverrides": [ "changelog-file-missing-in-native-package" ]
 }
