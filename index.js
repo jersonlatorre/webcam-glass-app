@@ -36,20 +36,23 @@ app.whenReady().then(() => {
 		createWindow()
 
 		alwaysOnTopTimer = setInterval(() => {
-			win.setAlwaysOnTop(true, 'screen')
+			win.setAlwaysOnTop(true, 'floating', 1)
+			win.setVisibleOnAllWorkspaces(true)
 		}, 10)
 	}, 1000)
 
-	globalShortcut.register('CommandOrControl+F', () => {
+	globalShortcut.register('CommandOrControl+Alt+F', () => {
 		console.log('Fullscreen')
 		if (isMaximized) {
 			isMaximized = false
 			win.setIgnoreMouseEvents(false)
+			// win.setFocusable(false)
 			win.unmaximize()
 		} else {
 			isMaximized = true
 			win.setIgnoreMouseEvents(true)
-			win.maximize() 
+			// win.setFocusable(true)
+			win.maximize()
 		}
 	})
 

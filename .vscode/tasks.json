@@ -3,9 +3,9 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "start-windows",
+			"script": "start",
 			"problemMatcher": [],
-			"label": "npm: start-windows",
+			"label": "npm: start",
 			"detail": "electron .",
 			"group": {
 				"kind": "build",

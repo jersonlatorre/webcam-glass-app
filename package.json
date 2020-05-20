@@ -10,10 +10,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start-windows": "electron .",
-    "start-linux": "electron --enable-transparent-visuals --disable-gpu ."
+    "start": "electron .",
+    "buildWindows": "electron-packager --electron-version='9.0.0' --platform='win32' --overwrite .",
+    "buildLinux": "electron-packager --electron-version='9.0.0' --platform='linux' --overwrite .",
+    "buildMacOS": "electron-packager --electron-version='9.0.0' --platform='darwin' --overwrite ."
   },
-  "dev-dependencies": {
+  "devDependencies": {
     "electron": "^9.0.0"
   }
 }
