@@ -1,12 +1,12 @@
 {
-  "name": "WebcamGlass",
+  "name": "webcamglass",
   "author": {
     "name": "Jerson La Torre",
     "email": "jerson.latorre@gmail.com",
     "url": "http://plug.pe"
   },
   "description": "Webcam tool for making tutorials or video conferencing",
-  "version": "0.6",
+  "version": "0.6.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -14,7 +14,7 @@
     "buildWindows": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --platform='win32' --overwrite .",
     "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
     "buildLinux": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --icon=assets/icons/1024x1024.png --prune=true --platform='linux' --overwrite .",
-    "buildLinuxDeb": "yarn buildLinux && node_modules/.bin/electron-installer-debian --src WebcamGlass-linux-x64 --arch amd64 --config debian.json"
+    "buildLinuxDeb": "yarn buildLinux && node_modules/.bin/electron-installer-debian --src webcamglass-linux-x64 --arch amd64 --config config/debian.json"
   },
   "devDependencies": {
     "electron": "7.3.0",
