@@ -11,11 +11,11 @@
   "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "buildWindows": "electron-packager --electron-version='9.0.0' --platform='win32' --overwrite .",
-    "buildLinux": "electron-packager --electron-version='9.0.0' --platform='linux' --overwrite .",
-    "buildMacOS": "electron-packager --electron-version='9.0.0' --platform='darwin' --overwrite ."
+    "buildWindows": "electron-packager --electron-version='7.3.0' --platform='win32' --overwrite .",
+    "buildLinux": "electron-packager --electron-version='7.3.0' --platform='linux' --overwrite .",
+    "buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite ."
   },
   "devDependencies": {
-    "electron": "^9.0.0"
+    "electron": "7.3.0"
   }
 }

@@ -7,6 +7,22 @@ ipcRenderer.on('change', (e, val) => {
 	opacity = val
 })
 
+document.addEventListener('mousedown', (e) => {
+	let px = e.screenX | 0
+	let py = e.screenY | 0
+	ipcRenderer.send('mousedown', { x: px, y: py })
+})
+
+document.addEventListener('mousemove', (e) => {
+	let px = e.screenX | 0
+	let py = e.screenY | 0
+	ipcRenderer.send('mousemove', { x: px, y: py })
+})
+
+document.addEventListener('mouseup', (e) => {
+	ipcRenderer.send('mouseup')
+})
+
 function setup() {
 	createCanvas(windowWidth, windowHeight)
 	video = createCapture(VIDEO)
