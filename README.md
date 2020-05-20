@@ -9,7 +9,7 @@ Shortcuts:
 - **Opacity Level 1:** Ctrl + Alt + 1
 - **Opacity Level 2:** Ctrl + Alt + 2
 - **No Opacity:** Ctrl + Alt + 3
-- **Exit**: Esc
+- **Exit:** Esc
 
 The main window is **resizable** and **draggable**.
 
