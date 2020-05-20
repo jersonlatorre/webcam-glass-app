@@ -1,16 +1,12 @@
 const { app, BrowserWindow, globalShortcut, screen, ipcMain } = require('electron')
 
 let win
+let savedWindowBoundsForTogglingFullScreen = {}
+let savedWindowBoundsBeforeDragging = {}
+let savedMouseDownPositionBeforeDragging
 let isMaximized = false
-let lastBounds
-let offset
-let mousePressedPosition = {}
-let lastWindowBounds
-let isDragging = false
+let isMouseDragging = false
 let opacity = 0.5
-
-// app.commandLine.appendSwitch('enable-transparent-visuals')
-// app.commandLine.appendSwitch('disable-gpu')
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -27,26 +23,29 @@ function createWindow() {
 		}
 	})
 
-	lastBounds = win.getBounds()
+	savedWindowBoundsForTogglingFullScreen = win.getBounds()
 
-	ipcMain.on('mousedown', (e, position) => {
-		isDragging = true
-		lastWindowBounds = win.getBounds()
-		mousePressedPosition.x = position.x
-		mousePressedPosition.y = position.y
+	ipcMain.on('mousedown', (e, mousePosition) => {
+		isMouseDragging = true
+		savedWindowBoundsBeforeDragging = win.getBounds()
+		savedMouseDownPositionBeforeDragging = mousePosition
 	})
 
 	ipcMain.on('mouseup', () => {
-		isDragging = false
+		isMouseDragging = false
 	})
 
-	ipcMain.on('mousemove', (e, position) => {
-		if (isDragging && !isMaximized) {
-			let ox = position.x - mousePressedPosition.x
-			let oy = position.y - mousePressedPosition.y
-			win.setPosition(lastWindowBounds.x + ox, lastWindowBounds.y + oy)
-			win.setSize(lastWindowBounds.width, lastWindowBounds.height)
+	ipcMain.on('mousemove', (e, mousePosition) => {
+		if (isMouseDragging && !isMaximized) {
+			let offsetX = mousePosition.x - savedMouseDownPositionBeforeDragging.x
+			let offsetY = mousePosition.y - savedMouseDownPositionBeforeDragging.y
+			win.setPosition(savedWindowBoundsBeforeDragging.x + offsetX, savedWindowBoundsBeforeDragging.y + offsetY)
+			win.setSize(savedWindowBoundsBeforeDragging.width, savedWindowBoundsBeforeDragging.height)
 		}
+	})
+
+	ipcMain.on('dblclick', () => {
+		toggleFullScreen()
 	})
 
 	win.loadFile('src/index.html')
@@ -58,43 +57,22 @@ function createWindow() {
 	})
 }
 
-function onMaximize() {
-	isMaximized = true
-	win.setIgnoreMouseEvents(true)
-	lastBounds = win.getBounds()
-	win.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height, true)
-	win.setPosition(0, 0)
-}
-
-function onMinimize() {
-	isMaximized = false
-	win.setIgnoreMouseEvents(false)
-	win.setSize(lastBounds.width, lastBounds.height, true)
-	win.setPosition(lastBounds.x, lastBounds.y)
-}
-
 app.whenReady().then(() => {
 	setTimeout(function() {
 		createWindow()
 	}, 1000)
 
+	globalShortcut.register('Alt+F4', () => {
+		win.show()
+	})
+
 	globalShortcut.register('CommandOrControl+Alt+F', () => {
-		if (isMaximized) {
-			onMinimize()
-			win.setIgnoreMouseEvents(false)
-		} else {
-			onMaximize()
-			if (opacity == 1) {
-				win.setIgnoreMouseEvents(false)
-			} else {
-				win.setIgnoreMouseEvents(true)
-			}
-		}
+		toggleFullScreen()
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
 		opacity = 0.25
-		win.webContents.send('change', opacity)
+		win.webContents.send('update-opacity', opacity)
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
 		} else {
@@ -104,7 +82,7 @@ app.whenReady().then(() => {
 
 	globalShortcut.register('CommandOrControl+Alt+2', () => {
 		opacity = 0.5
-		win.webContents.send('change', opacity)
+		win.webContents.send('update-opacity', opacity)
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
 		} else {
@@ -114,7 +92,7 @@ app.whenReady().then(() => {
 
 	globalShortcut.register('CommandOrControl+Alt+3', () => {
 		opacity = 1
-		win.webContents.send('change', opacity)
+		win.webContents.send('update-opacity', opacity)
 		win.setIgnoreMouseEvents(false)
 	})
 
@@ -134,3 +112,32 @@ app.on('activate', () => {
 		createWindow()
 	}
 })
+
+function onMaximize() {
+	isMaximized = true
+	win.setIgnoreMouseEvents(true)
+	savedWindowBoundsForTogglingFullScreen = win.getBounds()
+	win.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
+	win.setPosition(0, 0)
+}
+
+function onMinimize() {
+	isMaximized = false
+	win.setIgnoreMouseEvents(false)
+	win.setSize(savedWindowBoundsForTogglingFullScreen.width, savedWindowBoundsForTogglingFullScreen.height)
+	win.setPosition(savedWindowBoundsForTogglingFullScreen.x, savedWindowBoundsForTogglingFullScreen.y)
+}
+
+function toggleFullScreen() {
+	if (isMaximized) {
+		onMinimize()
+		win.setIgnoreMouseEvents(false)
+	} else {
+		onMaximize()
+		if (opacity == 1) {
+			win.setIgnoreMouseEvents(false)
+		} else {
+			win.setIgnoreMouseEvents(true)
+		}
+	}
+}
