@@ -1,0 +1,6 @@
+Todo:
+	☐ Change Esc -> Ctrl + Esc. Many programs use Esc key in their workflows
+	☐ Make Windows MSI Installer
+	☐ Make AppImage Installer
+	☐ Use a minimal UI in addition to shortcuts 
+	✔ Make Debian Installer @done(20-05-20 17:46)
