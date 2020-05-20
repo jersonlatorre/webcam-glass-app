@@ -13,4 +13,4 @@ Shortcuts:
 
 The main window is **resizable** and **draggable**.
 
-Enjoy! It's free.
+Enjoy! It's free!
