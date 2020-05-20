@@ -1,12 +1,11 @@
-const { app, BrowserWindow, globalShortcut } = require('electron')
-const ipc = require('electron').ipcRenderer
+const { app, BrowserWindow, globalShortcut, screen } = require('electron')
 
 let win
-let alwaysOnTopTimer
 let isMaximized = false
+let lastBounds
 
-app.commandLine.appendSwitch('enable-transparent-visuals')
-app.commandLine.appendSwitch('disable-gpu')
+// app.commandLine.appendSwitch('enable-transparent-visuals')
+// app.commandLine.appendSwitch('disable-gpu')
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -14,6 +13,7 @@ function createWindow() {
 		height: 480,
 		transparent: true,
 		alwaysOnTop: true,
+		fullscreenable: false,
 		opacity: true,
 		frame: false,
 		webPreferences: {
@@ -21,58 +21,65 @@ function createWindow() {
 		}
 	})
 
+	lastBounds = win.getBounds()
+
 	win.loadFile('src/index.html')
 	win.menuBarVisible = false
 	win.setResizable = true
+	win.setAlwaysOnTop(true)
 
-	win.on('maximize', () => {
-		win.setIgnoreMouseEvents(true)
-		console.log('hola')
+	win.on('maximize', (e) => {
+		onMaximize()
 	})
+}
+
+function onMaximize() {
+	isMaximized = true
+	win.setIgnoreMouseEvents(true)
+	lastBounds = win.getBounds()
+	win.setSize(screen.getPrimaryDisplay().workAreaSize.width, screen.getPrimaryDisplay().workAreaSize.height)
+	win.setPosition(0, 0)
+	console.log('maximize')
+}
+
+function onMinimize() {
+	console.log('unmaximize')
+			isMaximized = false
+			win.unmaximize()
+			win.setIgnoreMouseEvents(false)
+			win.setSize(lastBounds.width, lastBounds.height)
+			win.setPosition(lastBounds.x, lastBounds.y)
 }
 
 app.whenReady().then(() => {
 	setTimeout(function() {
 		createWindow()
-
-		alwaysOnTopTimer = setInterval(() => {
-			win.setAlwaysOnTop(true, 'floating', 1)
-			win.setVisibleOnAllWorkspaces(true)
-		}, 10)
 	}, 1000)
 
 	globalShortcut.register('CommandOrControl+Alt+F', () => {
-		console.log('Fullscreen')
 		if (isMaximized) {
-			isMaximized = false
-			win.setIgnoreMouseEvents(false)
-			// win.setFocusable(false)
-			win.unmaximize()
+			onMinimize()
 		} else {
-			isMaximized = true
-			win.setIgnoreMouseEvents(true)
-			// win.setFocusable(true)
-			win.maximize()
+			onMaximize()
 		}
 	})
 
-	globalShortcut.register('CommandOrControl+1', () => {
-		win.webContents.send('change-1')
+	globalShortcut.register('CommandOrControl+Alt+1', () => {
+		win.webContents.send('change', 0.25)
 	})
 
-	globalShortcut.register('CommandOrControl+2', () => {
-		win.webContents.send('change-2')
+	globalShortcut.register('CommandOrControl+Alt+2', () => {
+		win.webContents.send('change', 0.5)
 	})
 
-	globalShortcut.register('CommandOrControl+3', () => {
-		win.webContents.send('change-3')
+	globalShortcut.register('CommandOrControl+Alt+3', () => {
+		win.webContents.send('change', 1)
 	})
 })
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
 		app.quit()
-		clearInterval(alwaysOnTopTimer)
 	}
 })
 

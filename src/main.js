@@ -1,20 +1,11 @@
 const ipcRenderer = require('electron').ipcRenderer
 let video
-let opacity = 1
+let opacity = 0.5
 
-ipcRenderer.on('change-1', () => {
-	opacity = 0.3	
+ipcRenderer.on('change', (e, val) => {
+	console.log(val)
+	opacity = val
 })
-
-ipcRenderer.on('change-2', () => {
-	opacity = 0.6
-})
-
-ipcRenderer.on('change-3', () => {
-	opacity = 1
-})
-
-
 
 function setup() {
 	createCanvas(windowWidth, windowHeight)
@@ -24,11 +15,6 @@ function setup() {
 
 function draw() {
 	clear()
-	textAlign(CENTER, CENTER)
-	textSize(29)
-	fill('rgba(0, 0, 0, 0.3)')
-
-	text('...', width / 2, height / 2)
 
 	tint(255, 255 * opacity)
 	if (windowWidth / windowHeight > 4 / 3) {
