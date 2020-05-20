@@ -55,12 +55,10 @@ function createWindow() {
 
 	win.on('maximize', (e) => {
 		onMaximize()
-		win.unmaximize()
 	})
 }
 
 function onMaximize() {
-	// console.log('maximize')
 	isMaximized = true
 	win.setIgnoreMouseEvents(true)
 	lastBounds = win.getBounds()
@@ -69,7 +67,6 @@ function onMaximize() {
 }
 
 function onMinimize() {
-	// console.log('unmaximize')
 	isMaximized = false
 	win.setIgnoreMouseEvents(false)
 	win.setSize(lastBounds.width, lastBounds.height, true)
