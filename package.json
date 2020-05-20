@@ -1,5 +1,5 @@
 {
-  "name": "webcamshow",
+  "name": "WebcamGlass",
   "author": {
     "name": "Jerson La Torre",
     "email": "jerson.latorre@gmail.com",
@@ -12,10 +12,12 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "buildWindows": "electron-packager --electron-version='7.3.0' --platform='win32' --overwrite .",
-    "buildLinux": "electron-packager --electron-version='7.3.0' --platform='linux' --overwrite .",
+    "buildLinux": "electron-packager --electron-version='7.3.0' --asar --icon=assets/icons/1024x1024.png --prune=true --platform='linux' --overwrite .",
+    "buildLinuxDeb": "node_modules/.bin/electron-installer-debian --src WebcamGlass-linux-x64 --arch amd64 --config debian.json",
     "buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite ."
   },
   "devDependencies": {
-    "electron": "7.3.0"
+    "electron": "7.3.0",
+    "electron-installer-debian": "^3.0.0"
   }
 }
