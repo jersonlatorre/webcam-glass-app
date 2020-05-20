@@ -1,4 +1,5 @@
 node_modules
+npm-debug.log
 release-builds
 yarn.lock
-WebcamGlass*
+webcamglass*
