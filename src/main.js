@@ -2,25 +2,24 @@ const ipcRenderer = require('electron').ipcRenderer
 let video
 let opacity = 0.5
 
-ipcRenderer.on('change', (e, val) => {
-	console.log(val)
+ipcRenderer.on('update-opacity', (e, val) => {
 	opacity = val
 })
 
 document.addEventListener('mousedown', (e) => {
-	let px = e.screenX | 0
-	let py = e.screenY | 0
-	ipcRenderer.send('mousedown', { x: px, y: py })
+	ipcRenderer.send('mousedown', { x: e.screenX | 0, y: e.screenY | 0 })
 })
 
 document.addEventListener('mousemove', (e) => {
-	let px = e.screenX | 0
-	let py = e.screenY | 0
-	ipcRenderer.send('mousemove', { x: px, y: py })
+	ipcRenderer.send('mousemove', { x: e.screenX | 0, y: e.screenY | 0 })
 })
 
 document.addEventListener('mouseup', (e) => {
 	ipcRenderer.send('mouseup')
+})
+
+document.addEventListener('dblclick', (e) => {
+	ipcRenderer.send('dblclick')
 })
 
 function setup() {
@@ -31,7 +30,6 @@ function setup() {
 
 function draw() {
 	clear()
-
 	tint(255, 255 * opacity)
 	if (windowWidth / windowHeight > 4 / 3) {
 		let offset = 0.5 * (windowWidth * 3 / 4 - windowHeight)
