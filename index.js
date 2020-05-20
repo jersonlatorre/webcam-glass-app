@@ -96,7 +96,7 @@ app.whenReady().then(() => {
 		win.setIgnoreMouseEvents(false)
 	})
 
-	globalShortcut.register('Escape', () => {
+	globalShortcut.register('Ctrl+Escape', () => {
 		app.quit()
 	})
 })
