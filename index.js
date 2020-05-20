@@ -120,6 +120,10 @@ app.whenReady().then(() => {
 		win.webContents.send('change', opacity)
 		win.setIgnoreMouseEvents(false)
 	})
+
+	globalShortcut.register('Escape', () => {
+		app.quit()
+	})
 })
 
 app.on('window-all-closed', () => {
