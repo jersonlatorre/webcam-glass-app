@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>•</title>
+	<style>
+		html {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+
+		body {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+			background-color:transparent;
+		}
+
+		canvas {
+			transform: scale(-1, 1);
+			background-color:transparent;
+		}
+
+		.dragger {
+			top: 10px;
+			left: 10px;
+			display: block;
+			position: absolute;
+			width: calc(100% - 20px);
+			height: calc(100% - 20px);
+			z-index: -1;
+			-webkit-app-region: drag;
+			background-color:transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="dragger"></div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.js"></script>
+<script src="main.js"></script>
+
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "webcamshow",
+  "author": {
+    "name": "Jerson La Torre",
+    "email": "jerson.latorre@gmail.com",
+    "url": "http://plug.pe"
+  },
+  "description": "Webcam tool for making tutorials or video conferencing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start-windows": "electron .",
+    "start-linux": "electron --enable-transparent-visuals --disable-gpu ."
+  },
+  "dev-dependencies": {
+    "electron": "^9.0.0"
+  }
+}

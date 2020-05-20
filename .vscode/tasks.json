@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "start-windows",
+			"problemMatcher": [],
+			"label": "npm: start-windows",
+			"detail": "electron .",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
