@@ -7,6 +7,7 @@ let offset
 let mousePressedPosition = {}
 let lastWindowBounds
 let isDragging = false
+let opacity = 0.5
 
 // app.commandLine.appendSwitch('enable-transparent-visuals')
 // app.commandLine.appendSwitch('disable-gpu')
@@ -40,7 +41,7 @@ function createWindow() {
 	})
 
 	ipcMain.on('mousemove', (e, position) => {
-		if (isDragging) {
+		if (isDragging && !isMaximized) {
 			let ox = position.x - mousePressedPosition.x
 			let oy = position.y - mousePressedPosition.y
 			win.setPosition(lastWindowBounds.x + ox, lastWindowBounds.y + oy)
@@ -83,21 +84,41 @@ app.whenReady().then(() => {
 	globalShortcut.register('CommandOrControl+Alt+F', () => {
 		if (isMaximized) {
 			onMinimize()
+			win.setIgnoreMouseEvents(false)
 		} else {
 			onMaximize()
+			if (opacity == 1) {
+				win.setIgnoreMouseEvents(false)
+			} else {
+				win.setIgnoreMouseEvents(true)
+			}
 		}
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
-		win.webContents.send('change', 0.25)
+		opacity = 0.25
+		win.webContents.send('change', opacity)
+		if (isMaximized) {
+			win.setIgnoreMouseEvents(true)
+		} else {
+			win.setIgnoreMouseEvents(false)
+		}
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+2', () => {
-		win.webContents.send('change', 0.5)
+		opacity = 0.5
+		win.webContents.send('change', opacity)
+		if (isMaximized) {
+			win.setIgnoreMouseEvents(true)
+		} else {
+			win.setIgnoreMouseEvents(false)
+		}
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+3', () => {
-		win.webContents.send('change', 1)
+		opacity = 1
+		win.webContents.send('change', opacity)
+		win.setIgnoreMouseEvents(false)
 	})
 })
 

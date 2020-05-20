@@ -10,7 +10,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "electron .",
+    "start": "./node_modules/.bin/electron .",
     "buildWindows": "electron-packager --electron-version='7.3.0' --platform='win32' --overwrite .",
     "buildLinux": "electron-packager --electron-version='7.3.0' --platform='linux' --overwrite .",
     "buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite ."
