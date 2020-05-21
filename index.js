@@ -6,7 +6,7 @@ let savedWindowBoundsBeforeDragging = {}
 let savedMouseDownPositionBeforeDragging
 let isMaximized = false
 let isMouseDragging = false
-let opacity = 0.1
+let opacity = 0.2
 let dOpacity = 0.1
 
 function createWindow() {
@@ -62,7 +62,22 @@ function createWindow() {
 	})
 }
 
-app.whenReady().then(() => {
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+	app.quit()
+} else {
+	app.on('second-instance', (event, commandLine, workingDirectory) => {
+		if (win) {
+			if (win.isMinimized()) win.restore()
+			win.focus()
+		}
+	})
+
+	app.on('ready', () => {})
+}
+
+app.on('ready', () => {
 	setTimeout(function() {
 		createWindow()
 		toggleFullScreen()
@@ -80,7 +95,6 @@ app.whenReady().then(() => {
 		opacity -= dOpacity
 		if (opacity < 0) opacity = 0
 		win.webContents.send('update-opacity', opacity)
-		console.log(opacity)
 
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
@@ -93,10 +107,8 @@ app.whenReady().then(() => {
 		opacity += dOpacity
 		if (opacity > 1) opacity = 1
 		win.webContents.send('update-opacity', opacity)
-		console.log(opacity)
 
 		if (Math.abs(opacity - 1) < 0.01) {
-			console.log('aquí')
 			win.setIgnoreMouseEvents(false)
 		}
 	})
@@ -122,7 +134,7 @@ function onMaximize() {
 	isMaximized = true
 	win.setIgnoreMouseEvents(true)
 	savedWindowBoundsForTogglingFullScreen = win.getBounds()
-	win.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
+	win.setSize(screen.getPrimaryDisplay().bounds.width + 1, screen.getPrimaryDisplay().bounds.height)
 	win.setPosition(0, 0)
 }
 
