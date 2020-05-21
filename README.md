@@ -1,7 +1,7 @@
 # Glass
 ### Your screen and your webcam blended!
 
-<p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="300" /></p>
+<p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="270" /></p>
 
 Glass is an app for making video conferences and video tutorials showing the screen and the webcam at the same time.
 
