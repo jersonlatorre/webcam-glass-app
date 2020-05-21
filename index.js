@@ -120,6 +120,10 @@ app.on('ready', () => {
 		app.quit()
 	})
 
+	globalShortcut.register('Ctrl+Esc', () => {
+		app.quit()
+	})
+
 	globalShortcut.register('Ctrl+Alt+H', () => {
 		if (win.isVisible()) {
 			win.hide()
