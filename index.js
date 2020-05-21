@@ -60,6 +60,7 @@ function createWindow() {
 app.whenReady().then(() => {
 	setTimeout(function() {
 		createWindow()
+		toggleFullScreen()
 	}, 1000)
 
 	globalShortcut.register('Alt+F4', () => {
@@ -71,7 +72,7 @@ app.whenReady().then(() => {
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
-		opacity = 0.25
+		opacity = 0.15
 		win.webContents.send('update-opacity', opacity)
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
