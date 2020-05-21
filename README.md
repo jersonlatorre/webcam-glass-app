@@ -5,7 +5,7 @@
 
 Glass is an app for making video conferences and video tutorials showing the screen and the webcam at the same time.
 
-Windows and Linux standalone versions available for now.
+Windows and Linux standalone versions are available.
 Installer versions (MacOS included) coming soon.
 
 Shortcuts:
