@@ -6,6 +6,8 @@
 	<p align="center">Your screen and your webcam blended!</p>
 </p>
 
+<br>
+
 **Glass** is an app for making video conferences and video tutorials **blending the screen and the webcam** in fullscreen mode.
 
 ### Shortcuts
