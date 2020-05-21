@@ -6,7 +6,7 @@ let savedWindowBoundsBeforeDragging = {}
 let savedMouseDownPositionBeforeDragging
 let isMaximized = false
 let isMouseDragging = false
-let opacity = 0.2
+let opacity = 0.4
 let dOpacity = 0.1
 
 function createWindow() {
@@ -40,7 +40,10 @@ function createWindow() {
 		if (isMouseDragging && !isMaximized) {
 			let offsetX = mousePosition.x - savedMouseDownPositionBeforeDragging.x
 			let offsetY = mousePosition.y - savedMouseDownPositionBeforeDragging.y
-			win.setPosition(savedWindowBoundsBeforeDragging.x + offsetX, savedWindowBoundsBeforeDragging.y + offsetY)
+			let x = savedWindowBoundsBeforeDragging.x + offsetX
+			let y = savedWindowBoundsBeforeDragging.y + offsetY
+			win.setPosition(x, y)
+			console.log(x, y)
 			win.setSize(savedWindowBoundsBeforeDragging.width, savedWindowBoundsBeforeDragging.height)
 		}
 	})
@@ -93,7 +96,7 @@ app.on('ready', () => {
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
 		opacity -= dOpacity
-		if (opacity < 0) opacity = 0
+		if (opacity < 0.1) opacity = 0.1
 		win.webContents.send('update-opacity', opacity)
 
 		if (isMaximized) {
@@ -113,8 +116,16 @@ app.on('ready', () => {
 		}
 	})
 
-	globalShortcut.register('Ctrl+Escape', () => {
+	globalShortcut.register('Ctrl+Alt+F4', () => {
 		app.quit()
+	})
+
+	globalShortcut.register('Ctrl+Alt+H', () => {
+		if (win.isVisible()) {
+			win.hide()
+		} else {
+			win.show()
+		}
 	})
 })
 
