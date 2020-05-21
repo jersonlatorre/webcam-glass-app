@@ -15,11 +15,10 @@
     "buildWindows": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --platform='win32' --arc=ia32 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
     "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
     "buildLinux": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --icon=assets/icons/1024x1024.png --prune=true --platform='linux' --arch=x64 --out=release-builds --overwrite .",
-    "buildLinuxDeb": "yarn buildLinux; node_modules/.bin/electron-installer-debian --name='Glass' --src release-builds/Glass-linux-x64 --arch=amd64 --out=release-builds --config config/debian.json"
+    "buildLinuxDeb": "yarn buildLinux; electron-installer-debian --name='Glass' --src release-builds/Glass-linux-x64 --arch=amd64 --out=release-builds --config config/debian.json"
   },
   "devDependencies": {
     "electron": "7.3.0",
-    "electron-installer-debian": "^3.0.0",
     "electron-packager": "^14.2.1"
   }
 }

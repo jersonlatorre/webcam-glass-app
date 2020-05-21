@@ -6,7 +6,7 @@
 			"script": "start",
 			"problemMatcher": [],
 			"label": "npm: start",
-			"detail": "electron .",
+			"detail": "node_modules/.bin/electron .",
 			"group": {
 				"kind": "build",
 				"isDefault": true
