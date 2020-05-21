@@ -1,10 +1,15 @@
 const ipcRenderer = require('electron').ipcRenderer
 let video
-let opacity = 0.15
+let opacity
 
-ipcRenderer.on('update-opacity', (e, val) => {
-	opacity = val
+ipcRenderer.on('update-opacity', (e, v) => {
+	opacity = v
+	console.log('update opacity')
 })
+
+window.onload = () => {
+	ipcRenderer.send('renderer-loaded')
+}
 
 document.addEventListener('mousedown', (e) => {
 	ipcRenderer.send('mousedown', { x: e.screenX | 0, y: e.screenY | 0 })
@@ -37,6 +42,12 @@ function draw() {
 	} else {
 		let offset = 0.5 * (windowHeight * 4 / 3 - windowWidth)
 		image(video, -offset, 0, windowHeight * 4 / 3, windowHeight)
+	}
+
+	if (Math.round(opacity * 10) == 0) {
+		noFill()
+		stroke('#666')
+		rect(0, 0, width, height)
 	}
 }
 
