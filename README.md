@@ -6,14 +6,14 @@ Windows and Linux standalone versions available for now.
 Installer versions (MacOS included) coming soon.
 
 Shortcuts:
-- **Toggle Fullscreen:** Ctrl + Alt + F
-- **Opacity Level 1:** Ctrl + Alt + 1
-- **Opacity Level 2:** Ctrl + Alt + 2
-- **No Opacity:** Ctrl + Alt + 3
-- **Exit:** Esc
+- Toggle Fullscreen: Ctrl+Alt+F
+- Toggle Show/Hide: Ctrl+Alt+H
+- Decrease Opacity Level: Ctrl+Alt+1
+- Increase Opacity Level: Ctrl+Alt+2
+- Exit: Alt+F4 (Windows), Ctrl+Esc (Linux)
 
 Features:
-- You can work on your screen normally when the window is in fullscreen mode, so you can make presentations or tutorials using this tool.
-- The main window is **resizable** and **draggable**.
+- You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can make presentations or tutorials using this tool.
+- Window is **resizable** and **draggable**.
 
 Enjoy! It's free!
