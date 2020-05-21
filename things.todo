@@ -1,10 +1,11 @@
 Glass v0.7:
-	☐ UI: increase/Decrease opecity
-	☐ UI: toggle fullscreen
 	☐ Add a splash screen
 	☐ Redesign the icon
+	✔ Add a hint when opacity = 0 @done(20-05-20 22:11)
+	✔ Increase/Decrease opacity @done(20-05-20 22:11)
 	✔ Esc -> Ctrl + Esc. Many programs use Esc key in their workflows @done(20-05-20 21:24)
 	✔ Maximize on start @done(20-05-20 21:24)
+	✘ UI: toggle fullscreen @cancelled(20-05-20 22:12) -> double click solution
 	
 Glass v0.8:
 	☐ Add support for multiple displays
