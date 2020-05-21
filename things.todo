@@ -1,6 +1,18 @@
-Todo:
-	☐ Change Esc -> Ctrl + Esc. Many programs use Esc key in their workflows
-	☐ Make Windows MSI Installer
-	☐ Make AppImage Installer
-	☐ Use a minimal UI in addition to shortcuts 
-	✔ Make Debian Installer @done(20-05-20 17:46)
+Glass v0.7:
+	☐ UI: increase/Decrease opecity
+	☐ UI: toggle fullscreen
+	☐ Add a splash screen
+	☐ Redesign the icon
+	✔ Esc -> Ctrl + Esc. Many programs use Esc key in their workflows @done(20-05-20 21:24)
+	✔ Maximize on start @done(20-05-20 21:24)
+	
+Glass v0.8:
+	☐ Add support for multiple displays
+	☐ UI: smooth animations for transitions: maximize, unmaximize
+	☐ Circular or rectangular mask shape
+
+
+Installers:
+	☐ Make MSI Installer (Windows)
+	☐ Make AppImage Installer (Linux)
+	☐ Make DMG Installer (MaxOS)
