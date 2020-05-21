@@ -19,6 +19,6 @@ Features:
 - You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can **make presentations and tutorials** using this tool.
 - Window is **resizable** and **draggable**.
 
-[Download Link](https://github.com/jersonlatorre/webcam-glass/releases/latest)
+<p align="center"><img src="https://i.imgur.com/LKSKpt3.png" width="200" /></p>
 
 Enjoy! It's free!
