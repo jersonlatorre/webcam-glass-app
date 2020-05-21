@@ -9,9 +9,10 @@ Glass v0.7:
 	✘ UI: toggle fullscreen @cancelled(20-05-20 22:12) -> double click solution
 	
 Glass v0.8:
+	☐ Settings popup
 	☐ Snap to borders
+	☐ UI: buttons replacing shortcuts?
 	☐ About Glass popup
-	☐ Config popup
 
 Glass v0.9:
 	☐ Add support for multiple displays?
