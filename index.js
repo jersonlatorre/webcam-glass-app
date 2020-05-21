@@ -6,7 +6,8 @@ let savedWindowBoundsBeforeDragging = {}
 let savedMouseDownPositionBeforeDragging
 let isMaximized = false
 let isMouseDragging = false
-let opacity = 0.5
+let opacity = 0.1
+let dOpacity = 0.1
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -48,6 +49,10 @@ function createWindow() {
 		toggleFullScreen()
 	})
 
+	ipcMain.on('renderer-loaded', () => {
+		win.webContents.send('update-opacity', opacity)
+	})
+
 	win.loadFile('src/index.html')
 	win.menuBarVisible = false
 	win.setAlwaysOnTop(true)
@@ -72,8 +77,11 @@ app.whenReady().then(() => {
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
-		opacity = 0.15
+		opacity -= dOpacity
+		if (opacity < 0) opacity = 0
 		win.webContents.send('update-opacity', opacity)
+		console.log(opacity)
+
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
 		} else {
@@ -82,19 +90,15 @@ app.whenReady().then(() => {
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+2', () => {
-		opacity = 0.5
+		opacity += dOpacity
+		if (opacity > 1) opacity = 1
 		win.webContents.send('update-opacity', opacity)
-		if (isMaximized) {
-			win.setIgnoreMouseEvents(true)
-		} else {
+		console.log(opacity)
+
+		if (Math.abs(opacity - 1) < 0.01) {
+			console.log('aquí')
 			win.setIgnoreMouseEvents(false)
 		}
-	})
-
-	globalShortcut.register('CommandOrControl+Alt+3', () => {
-		opacity = 1
-		win.webContents.send('update-opacity', opacity)
-		win.setIgnoreMouseEvents(false)
 	})
 
 	globalShortcut.register('Ctrl+Escape', () => {
