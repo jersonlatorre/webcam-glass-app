@@ -2,9 +2,7 @@
 ### Your screen and your webcam blended!
 
 <p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="250" /></p>
-<p align="center"><img src="https://gifyu.com/image/ngWg" width="500" /></p>
-
-<a href="https://gifyu.com/image/ngWg"><img src="https://s7.gifyu.com/images/outputd540479eb8af1413.gif" alt="outputd540479eb8af1413.gif" border="0" /></a>
+<p align="center"><img src="https://media.tenor.com/images/e13928e4845b2edad84c6a12f13e8681/tenor.gif" width="500" /></p>
 
 **Glass** is an app for making video conferences and video tutorials **blending the screen and the webcam** in fullscreen mode.
 
