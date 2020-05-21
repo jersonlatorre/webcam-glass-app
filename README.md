@@ -3,9 +3,9 @@
 
 <p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="300" /></p>
 
-Glass is an app for making video conferences or video tutorials showing the screen and the webcam at the same time.
+Glass is an app for making video conferences and video tutorials showing the screen and the webcam at the same time.
 
-Windows and Linux standalone versions available for now.
+Windows and Linux standalone versions are available.
 Installer versions (MacOS included) coming soon.
 
 Shortcuts:
@@ -18,5 +18,7 @@ Shortcuts:
 Features:
 - You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can **make presentations and tutorials** using this tool.
 - Window is **resizable** and **draggable**.
+
+[Download Link](https://github.com/jersonlatorre/webcam-glass/releases/latest)
 
 Enjoy! It's free!
