@@ -1,6 +1,6 @@
 const ipcRenderer = require('electron').ipcRenderer
 let video
-let opacity = 0.5
+let opacity = 0.15
 
 ipcRenderer.on('update-opacity', (e, val) => {
 	opacity = val
