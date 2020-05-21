@@ -1,5 +1,5 @@
 # Glass
-### Your screen and your webcam blended!
+<p align="center"><b>Your screen and your webcam blended!</b></p>
 
 <p align="center"><img src="https://s7.gifyu.com/images/output3204874a41f5eee7e.gif" alt="video-demo" width="500"></p>
 
