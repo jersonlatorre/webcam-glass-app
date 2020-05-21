@@ -6,7 +6,8 @@ let savedWindowBoundsBeforeDragging = {}
 let savedMouseDownPositionBeforeDragging
 let isMaximized = false
 let isMouseDragging = false
-let opacity = 0.5
+let opacity = 0.2
+let dOpacity = 0.1
 
 function createWindow() {
 	win = new BrowserWindow({
@@ -48,6 +49,10 @@ function createWindow() {
 		toggleFullScreen()
 	})
 
+	ipcMain.on('renderer-loaded', () => {
+		win.webContents.send('update-opacity', opacity)
+	})
+
 	win.loadFile('src/index.html')
 	win.menuBarVisible = false
 	win.setAlwaysOnTop(true)
@@ -57,9 +62,25 @@ function createWindow() {
 	})
 }
 
-app.whenReady().then(() => {
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+	app.quit()
+} else {
+	app.on('second-instance', (event, commandLine, workingDirectory) => {
+		if (win) {
+			if (win.isMinimized()) win.restore()
+			win.focus()
+		}
+	})
+
+	app.on('ready', () => {})
+}
+
+app.on('ready', () => {
 	setTimeout(function() {
 		createWindow()
+		toggleFullScreen()
 	}, 1000)
 
 	globalShortcut.register('Alt+F4', () => {
@@ -71,8 +92,10 @@ app.whenReady().then(() => {
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+1', () => {
-		opacity = 0.25
+		opacity -= dOpacity
+		if (opacity < 0) opacity = 0
 		win.webContents.send('update-opacity', opacity)
+
 		if (isMaximized) {
 			win.setIgnoreMouseEvents(true)
 		} else {
@@ -81,22 +104,16 @@ app.whenReady().then(() => {
 	})
 
 	globalShortcut.register('CommandOrControl+Alt+2', () => {
-		opacity = 0.5
+		opacity += dOpacity
+		if (opacity > 1) opacity = 1
 		win.webContents.send('update-opacity', opacity)
-		if (isMaximized) {
-			win.setIgnoreMouseEvents(true)
-		} else {
+
+		if (Math.abs(opacity - 1) < 0.01) {
 			win.setIgnoreMouseEvents(false)
 		}
 	})
 
-	globalShortcut.register('CommandOrControl+Alt+3', () => {
-		opacity = 1
-		win.webContents.send('update-opacity', opacity)
-		win.setIgnoreMouseEvents(false)
-	})
-
-	globalShortcut.register('Escape', () => {
+	globalShortcut.register('Ctrl+Escape', () => {
 		app.quit()
 	})
 })
@@ -117,7 +134,7 @@ function onMaximize() {
 	isMaximized = true
 	win.setIgnoreMouseEvents(true)
 	savedWindowBoundsForTogglingFullScreen = win.getBounds()
-	win.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
+	win.setSize(screen.getPrimaryDisplay().bounds.width + 1, screen.getPrimaryDisplay().bounds.height)
 	win.setPosition(0, 0)
 }
 
