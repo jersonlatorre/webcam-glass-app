@@ -1,5 +1,5 @@
 # Glass
-<p align="center">### Your screen and your webcam blended!</p>
+###<p align="center"> Your screen and your webcam blended!</p>
 
 <p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="300" /></p>
 
