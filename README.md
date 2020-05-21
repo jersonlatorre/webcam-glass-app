@@ -4,7 +4,7 @@
 <p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="250" /></p>
 <p align="center"><img src="https://gifyu.com/image/ngWg" width="500" /></p>
 
-![outputd540479eb8af1413.gif](https://s7.gifyu.com/images/outputd540479eb8af1413.gif)
+<a href="https://gifyu.com/image/ngWg"><img src="https://s7.gifyu.com/images/outputd540479eb8af1413.th.gif" alt="outputd540479eb8af1413.gif" border="0" /></a>
 
 **Glass** is an app for making video conferences and video tutorials **blending the screen and the webcam** in fullscreen mode.
 
