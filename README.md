@@ -1,7 +1,7 @@
 # Glass
 
 <p align="center">
-	<img src="https://s7.gifyu.com/images/output3204874a41f5eee7e.gif" alt="video-demo" width="500">
+	<img src="https://s7.gifyu.com/images/output77591528be0f4ccb.gif" alt="video-demo" width="500">
 	</br>
 	<strong align="center">Your screen and your webcam blended!</strong>
 </p>
