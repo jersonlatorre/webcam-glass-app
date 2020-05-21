@@ -3,10 +3,9 @@
 
 <p align="center"><img src="https://i.imgur.com/qXuRtvU.png" width="250" /></p>
 
-Glass is an app for making video conferences and video tutorials showing the screen and the webcam at the same time.
+Glass is an app for making video conferences and video tutorials blending the screen and the webcam in fullscreen mode.
 
-Windows and Linux standalone versions are available.
-Installer versions (MacOS included) coming soon.
+Windows and Linux standalone versions are available. Installer versions (MacOS included) coming soon.
 
 Shortcuts:
 - **Toggle Fullscreen**: Ctrl+Alt+F
