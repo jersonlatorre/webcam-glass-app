@@ -13,13 +13,13 @@
 	"scripts": {
 		"start": "./node_modules/.bin/electron .",
 		"buildWindows": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
-		"buildWindowsInstaller": "electron-installer-windows --src ./release-builds/Glass-win32-x64/ --dest ./release-builds/",
 		"buildMacOS": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
 		"buildLinux": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --icon=assets/icons/1024x1024.png --prune=true --platform='linux' --arch=x64 --out=release-builds --overwrite .",
 		"buildLinuxDeb": "yarn buildLinux; electron-installer-debian --name='Glass' --src release-builds/Glass-linux-x64 --arch=amd64 --out=release-builds --config config/debian.json"
 	},
 	"devDependencies": {
 		"electron": "7.3.0",
-		"electron-packager": "^14.2.1"
+		"electron-packager": "^14.2.1",
+		"msi-packager": "^1.3.0"
 	}
 }
