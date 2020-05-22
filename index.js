@@ -43,7 +43,6 @@ function createWindow() {
 			let x = savedWindowBoundsBeforeDragging.x + offsetX
 			let y = savedWindowBoundsBeforeDragging.y + offsetY
 			win.setPosition(x, y)
-			console.log(x, y)
 			win.setSize(savedWindowBoundsBeforeDragging.width, savedWindowBoundsBeforeDragging.height)
 		}
 	})
