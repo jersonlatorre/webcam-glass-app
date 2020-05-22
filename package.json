@@ -7,25 +7,42 @@
 		"url": "http://plug.pe"
 	},
 	"description": "Webcam tool for making tutorials or video conferencing",
-	"version": "0.7.0",
+	"version": "0.7.1",
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"start": "./node_modules/.bin/electron .",
-		"buildWindows": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
-		"buildMacOS": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
-		"buildLinux": "./node_modules/.bin/electron-packager --electron-version='7.3.0' --asar --icon=assets/icons/1024x1024.png --prune=true --platform='linux' --arch=x64 --out=release-builds --overwrite .",
+		"start": "electron .",
+		"buildWindows": "electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
+		"buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
+		"buildLinux": "electron-builder .",
 		"buildLinuxDeb": "yarn buildLinux; electron-installer-debian --name='Glass' --src release-builds/Glass-linux-x64 --arch=amd64 --out=release-builds --config config/debian.json"
 	},
-	"devDependencies": {
-		"electron": "7.3.0",
-		"electron-packager": "^14.2.1"
-	},
 	"build": {
+		"appId": "997044c5-1343-4138-b561-442d35a32460",
 		"linux": {
-			"target": "AppImage",
-			"icon": "./assets/icons/1024x1024.png",
+			"target": ["AppImage", "deb"],
 			"category": "Utility"
+		},
+		"dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+		"win": {
+			"target": "squirrel",
+			"icon": "build/icon.ico"
 		}
+	},
+	"devDependencies": {
+		"electron": "latest"
 	}
 }
