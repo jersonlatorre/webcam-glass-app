@@ -14,8 +14,7 @@
 		"start": "electron .",
 		"buildWindows": "electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
 		"buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
-		"buildLinux": "electron-builder .",
-		"buildLinuxDeb": "yarn buildLinux; electron-installer-debian --name='Glass' --src release-builds/Glass-linux-x64 --arch=amd64 --out=release-builds --config config/debian.json"
+		"buildLinux": "electron-builder ."
 	},
 	"build": {
 		"appId": "997044c5-1343-4138-b561-442d35a32460",
