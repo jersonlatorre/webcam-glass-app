@@ -21,5 +21,12 @@
 	"devDependencies": {
 		"electron": "7.3.0",
 		"electron-packager": "^14.2.1"
+	},
+	"build": {
+		"linux": {
+			"target": "deb",
+			"icon": "./assets/icons/1024x1024.png",
+			"category": "Utility"
+		}
 	}
 }
