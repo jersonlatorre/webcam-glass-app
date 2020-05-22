@@ -23,7 +23,7 @@
 	},
 	"build": {
 		"linux": {
-			"target": "deb",
+			"target": "AppImage",
 			"icon": "./assets/icons/1024x1024.png",
 			"category": "Utility"
 		}
