@@ -3,7 +3,7 @@
 <p align="center">
 	<img src="https://s7.gifyu.com/images/output77591528be0f4ccb.gif" alt="video-demo" width="500">
 	</br>
-	<strong align="center">Your screen and your webcam blended!</strong>
+	<strong align="center">Share your screen and your webcam blended!</strong>
 </p>
 
 <br>
