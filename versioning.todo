@@ -33,5 +33,5 @@ Installers:
 
 Notes:
 	☐ Windows installer -> 
-	☐ Linux installer -> electron-builder (https://www.electron.build/configuration/configuration)
-	☐ Mac installer -> electron-installer-dmg
+	☐ Linux installer -> electron-builder ./release-builds/Glass-linux-x64/ (cambiando deb / AppImage en package.json) (https://www.electron.build/configuration/configuration)
+	☐ Mac installer -> electron-installer-dmg --icon ./assets/icons/1024x1024.icns ./Glass-darwin-x64/Glass.app/ Glass
