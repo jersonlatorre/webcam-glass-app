@@ -12,7 +12,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "electron .",
-		"buildWindows": "electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=assets/icons/1024x1024.png --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
+		"buildWindows": "electron-packager --electron-version='7.3.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
 		"buildMacOS": "electron-packager --electron-version='7.3.0' --platform='darwin' --overwrite .",
 		"buildLinux": "electron-builder ."
 	},
