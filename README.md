@@ -23,6 +23,6 @@
 
 <p align="center"><a href="https://github.com/jersonlatorre/webcam-glass/releases/latest"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
 
-⮞ *Windows, MacOS and Linux versions available.*
+⮞ ***Windows**, **MacOS** and **Linux** versions available.*
 
 Enjoy! It's free!
