@@ -1,3 +1,14 @@
+Glass v0.9:
+	☐ Add support for multiple displays?
+	☐ Circular or rectangular mask shape?
+	☐ UI: smooth animations for transitions: maximize, unmaximize
+
+Glass v0.8:
+	☐ Settings popup
+	☐ Snap to borders
+	☐ UI: buttons replacing shortcuts?
+	☐ About Glass popup
+
 Glass v0.7:
 	✔ Redesign the icon @done(20-05-21 02:21)
 	✔ Add a hint when opacity = 0 @done(20-05-20 22:11)
@@ -7,20 +18,15 @@ Glass v0.7:
 	✔ Allow only one instance @done(20-05-21 01:23)
 	✘ Add a splash screen @cancelled(20-05-20 23:03) simplicity and non-intrusive workflow first?
 	✘ UI: toggle fullscreen @cancelled(20-05-20 22:12) -> double click solution
-	
-Glass v0.8:
-	☐ Settings popup
-	☐ Snap to borders
-	☐ UI: buttons replacing shortcuts?
-	☐ About Glass popup
-
-Glass v0.9:
-	☐ Add support for multiple displays?
-	☐ Circular or rectangular mask shape?
-	☐ UI: smooth animations for transitions: maximize, unmaximize
 
 
 Installers:
-	☐ Make MSI Installer (Windows)
-	☐ Make AppImage Installer (Linux)
-	☐ Make DMG Installer (MaxOS)
+	✔ Make MSI Installer (Windows) @done(20-05-22 03:51)
+	✔ Make AppImage Installer (Linux) @done(20-05-22 03:51)
+	✔ Make DMG Installer (MaxOS) @done(20-05-22 03:51)
+	☐ Automate build with js scripts
+
+Notes:
+	☐ Windows installer -> 
+	☐ Linux installer -> electron-builder (https://www.electron.build/configuration/configuration)
+	☐ Mac installer -> electron-installer-dmg
