@@ -4,3 +4,4 @@ yarn-error.log
 release-builds
 yarn.lock
 Glass*
+dist
