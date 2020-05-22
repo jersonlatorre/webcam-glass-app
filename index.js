@@ -86,10 +86,6 @@ app.on('ready', () => {
 		toggleFullScreen()
 	}, 1000)
 
-	globalShortcut.register('Alt+F4', () => {
-		win.show()
-	})
-
 	globalShortcut.register('CommandOrControl+Alt+F', () => {
 		toggleFullScreen()
 	})
@@ -116,7 +112,7 @@ app.on('ready', () => {
 		}
 	})
 
-	globalShortcut.register('Ctrl+Alt+F4', () => {
+	globalShortcut.register('Ctrl+Alt+Q', () => {
 		app.quit()
 	})
 
