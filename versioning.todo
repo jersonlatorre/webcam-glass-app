@@ -32,6 +32,8 @@ Installers:
 	☐ Automate build with js scripts
 
 Notes:
-	☐ Windows installer -> 
-	☐ Linux installer -> electron-builder ./release-builds/Glass-linux-x64/ (cambiando deb / AppImage en package.json) (https://www.electron.build/configuration/configuration)
-	☐ Mac installer -> electron-installer-dmg --icon ./assets/icons/1024x1024.icns ./Glass-darwin-x64/Glass.app/ Glass
+	- Windows installer -> 
+	- Linux installer -> electron-builder . (genera AppImage, deb y binarios)
+	- Mac installer:
+		- Run buildMasOS first 
+		- electron-installer-dmg --icon ./build/icon.icns ./Glass-darwin-x64/Glass.app/ Glass
