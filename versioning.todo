@@ -8,6 +8,11 @@ Glass v0.8:
 	☐ Snap to borders
 	☐ UI: buttons replacing shortcuts?
 	☐ About Glass popup
+	
+Glass v0.7.1:
+	✔ Fix: offline mode @done(20-05-22 11:59)
+	✔ Fix: don't block Alt+F4 @done(20-05-22 12:01)
+	✔ Fix: OS compatible exit shortcuts -> Ctrl+Alt+Q added @done(20-05-22 12:07)
 
 Glass v0.7:
 	✔ Redesign the icon @done(20-05-21 02:21)
