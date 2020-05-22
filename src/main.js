@@ -44,18 +44,6 @@ function draw() {
 			let offset = 0.5 * (windowHeight * 4 / 3 - windowWidth)
 			image(video, -offset, 0, windowHeight * 4 / 3, windowHeight)
 		}
-
-		// if (Math.round(opacity * 10) == 0) {
-			// reserve space
-			// fill('rgba(0, 0, 0, 0.001)')
-			// rect(0, 0, windowWidth, windowHeight)
-			
-			// draw rectangle
-			// noFill()
-			// strokeWeight(1)
-			// stroke('#666')
-			// rect(1, 0, windowWidth, windowHeight)
-		// }
 	}
 }
 
