@@ -21,7 +21,7 @@
 - You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can **make presentations and tutorials** using this tool.
 - Glass window is totally **resizable** and **draggable**.
 
-<p align="center"><a href="https://github.com/jersonlatorre/webcam-glass/releases/latest"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
+<p align="center"><a href="http://glass.surge.sh"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
 
 ⮞ ***Windows**, **MacOS** and **Linux** versions available.*
 
