@@ -4,7 +4,7 @@ let isVideoLoaded = false
 let opacity
 
 ipcRenderer.on('update-opacity', (e, v) => {
-	opacity = v
+  opacity = v
 })
 
 window.onload = () => {
