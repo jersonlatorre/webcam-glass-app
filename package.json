@@ -42,6 +42,6 @@
 		}
 	},
 	"devDependencies": {
-		"electron": "latest"
+		"electron": "7.3.0"
 	}
 }
