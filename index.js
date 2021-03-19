@@ -144,7 +144,7 @@ function onMaximize() {
   isMaximized = true
   win.setIgnoreMouseEvents(true)
   savedWindowBoundsForTogglingFullScreen = win.getBounds()
-  win.setSize(screen.getPrimaryDisplay().bounds.width + 1, screen.getPrimaryDisplay().bounds.height)
+  win.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
   win.setPosition(0, 0)
 }
 
