@@ -1,4 +1,5 @@
 const ipcRenderer = require('electron').ipcRenderer
+
 let video
 let isVideoLoaded = false
 let opacity
@@ -35,6 +36,7 @@ function setup() {
 
 function draw() {
 	clear()
+  
 	if (isVideoLoaded) {
 		tint(255, 255 * opacity)
 		if (windowWidth / windowHeight > 4 / 3) {
