@@ -14,7 +14,7 @@ function createWindow() {
     mainWindow.onMouseDown(position)
   })
 
-  ipcMain.on('mouseup', (e, position) => {
+  ipcMain.on('mouseup', (e) => {
     mainWindow.onMouseUp()
   })
 
@@ -22,7 +22,7 @@ function createWindow() {
     mainWindow.onMouseMove(position)
   })
 
-  ipcMain.on('dblclick', (e, position) => {
+  ipcMain.on('dblclick', (e) => {
     mainWindow.onDoubleClick()
   })
 
