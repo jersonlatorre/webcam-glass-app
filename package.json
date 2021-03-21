@@ -7,7 +7,7 @@
 		"url": "http://plug.pe"
 	},
 	"description": "Webcam tool for making tutorials or video conferencing",
-	"version": "0.7.2",
+	"version": "0.8.0",
 	"main": "ipc-main/index.js",
 	"license": "MIT",
 	"scripts": {
