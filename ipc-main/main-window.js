@@ -30,10 +30,6 @@ module.exports = class MainWindow extends BrowserWindow {
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
     this.toggleFullScreen()
-
-    this.on('maximize', (e) => {
-      this.onMaximize()
-    })
   }
 
   update() {
