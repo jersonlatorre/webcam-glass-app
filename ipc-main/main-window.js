@@ -43,7 +43,7 @@ module.exports = class MainWindow extends BrowserWindow {
     this.setIgnoreMouseEvents(true)
     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
     this.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
-    this.setPosition(0, 0)
+    this.setPosition(screen.getPrimaryDisplay().bounds.x, screen.getPrimaryDisplay().bounds.y)
   }
 
   onMinimize() {
