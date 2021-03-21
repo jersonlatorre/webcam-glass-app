@@ -5,6 +5,8 @@ module.exports = class MainWindow extends BrowserWindow {
     super({
       width: 640,
       height: 480,
+      minWidth: 200,
+      minHeight: 200,
       transparent: true,
       alwaysOnTop: true,
       resizable: true,
