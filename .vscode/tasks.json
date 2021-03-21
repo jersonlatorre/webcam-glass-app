@@ -2,11 +2,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "npm",
-			"script": "start",
-			"problemMatcher": [],
-			"label": "npm: start",
-			"detail": "node_modules/.bin/electron .",
+			"label": "start",
+			"type": "shell",
+			"command": "node_modules/.bin/electron .",
+      "windows": {
+        "command": ""
+      },
 			"group": {
 				"kind": "build",
 				"isDefault": true
