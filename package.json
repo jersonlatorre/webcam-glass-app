@@ -3,8 +3,7 @@
 	"productName": "Glass",
 	"author": {
 		"name": "Jerson La Torre",
-		"email": "jerson.latorre@gmail.com",
-		"url": "http://plug.pe"
+		"email": "jerson.latorre@gmail.com"
 	},
 	"description": "Webcam tool for making tutorials or video conferencing",
 	"version": "0.8.0",
@@ -19,23 +18,26 @@
 	"build": {
 		"appId": "997044c5-1343-4138-b561-442d35a32460",
 		"linux": {
-			"target": ["AppImage", "deb"],
+			"target": [
+				"AppImage",
+				"deb"
+			],
 			"category": "Utility"
 		},
 		"dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
+			"contents": [
+				{
+					"x": 110,
+					"y": 150
+				},
+				{
+					"x": 240,
+					"y": 150,
+					"type": "link",
+					"path": "/Applications"
+				}
+			]
+		},
 		"win": {
 			"target": "squirrel",
 			"icon": "build/icon.ico"
@@ -43,5 +45,8 @@
 	},
 	"devDependencies": {
 		"electron": "9.4.0"
+	},
+	"dependencies": {
+		"electron-context-menu": "^2.5.0"
 	}
 }
