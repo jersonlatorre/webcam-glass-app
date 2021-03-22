@@ -3,29 +3,6 @@ const contextMenu = require('electron-context-menu')
 const MainWindow = require('./main-window')
 
 /**
- * Context menu
- */
-
-contextMenu({
-  prepend: (params, window) => [
-    {
-      label: 'Fullscreen',
-
-      click: () => {
-        mainWindow.toggleFullScreen()
-      }
-    },
-    {
-      label: 'Exit',
-
-      click: () => {
-        app.quit()
-      }
-    }
-  ]
-})
-
-/**
  * Create the main window and manage its events
  */
 let mainWindow
@@ -61,6 +38,14 @@ function createWindow() {
     mainWindow.update()
   })
 
+  ipcMain.on('fullscreen', () => {
+    mainWindow.toggleFullScreen()
+  })
+
+  ipcMain.on('exit', () => {
+    app.quit()
+  })
+
   globalShortcut.register('CommandOrControl+Alt+F', () => {
     mainWindow.toggleFullScreen()
   })
@@ -81,9 +66,9 @@ function createWindow() {
     app.quit()
   })
 
-  globalShortcut.register('Ctrl+Alt+H', () => {
+  // globalShortcut.register('Ctrl+Alt+H', () => {
     // mainWindow.toggleHide()
-  })
+  // })
 }
 
 /**

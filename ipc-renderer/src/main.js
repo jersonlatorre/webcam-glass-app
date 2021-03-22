@@ -100,6 +100,18 @@ function setup() {
   panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 2, step: 0.1 }).on('change', (e) => {
     updateControllers()
   })
+
+  panel.addButton({
+    title: 'Fullscreen'
+  }).on('click', () => {
+    ipcRenderer.send('fullscreen')
+  })
+
+  panel.addButton({
+    title: 'Exit'
+  }).on('click', () => {
+    ipcRenderer.send('exit')
+  })
 }
 
 function draw() {
