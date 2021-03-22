@@ -3,8 +3,8 @@ const { BrowserWindow, screen } = require('electron')
 module.exports = class MainWindow extends BrowserWindow {
   constructor() {
     super({
-      width: 640,
-      height: 480,
+      width: 400,
+      height: 400,
       minWidth: 300,
       minHeight: 300,
       transparent: true,
