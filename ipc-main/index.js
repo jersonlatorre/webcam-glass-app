@@ -14,6 +14,13 @@ contextMenu({
       click: () => {
         mainWindow.toggleFullScreen()
       }
+    },
+    {
+      label: 'Exit',
+
+      click: () => {
+        app.quit()
+      }
     }
   ]
 })
