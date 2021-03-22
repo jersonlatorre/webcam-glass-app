@@ -35,7 +35,7 @@ module.exports = class MainWindow extends BrowserWindow {
   update() {
     this.webContents.send('update-opacity', this.opacity)
   }
-  
+
   onMaximize() {
     this.isMaximized = true
     this.setIgnoreMouseEvents(true)
@@ -44,7 +44,7 @@ module.exports = class MainWindow extends BrowserWindow {
     this.setPosition(screen.getPrimaryDisplay().bounds.x, screen.getPrimaryDisplay().bounds.y)
     this.webContents.send('maximize')
   }
-  
+
   onMinimize() {
     this.isMaximized = false
     this.setIgnoreMouseEvents(false)
@@ -52,7 +52,7 @@ module.exports = class MainWindow extends BrowserWindow {
     this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
     this.webContents.send('minimize')
   }
-  
+
   onMouseDown(position) {
     this.isMouseDragging = true
     this.savedWindowBoundsBeforeDragging = this.getBounds()
@@ -114,11 +114,17 @@ module.exports = class MainWindow extends BrowserWindow {
     }
   }
 
-  toggleHide() {
-    if (this.isVisible()) {
-      this.hide()
-    } else {
-      this.show()
-    }
-  }
+  // toggleHide() {
+  //   if (this.isVisible()) {
+  //     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
+  //     this.hide()
+  //   } else {
+  //     this.setSize(
+  //       this.savedWindowBoundsForTogglingFullScreen.width,
+  //       this.savedWindowBoundsForTogglingFullScreen.height
+  //     )
+  //     this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
+  //     this.show()
+  //   }
+  // }
 }

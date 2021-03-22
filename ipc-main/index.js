@@ -75,7 +75,7 @@ function createWindow() {
   })
 
   globalShortcut.register('Ctrl+Alt+H', () => {
-    mainWindow.toggleHide()
+    // mainWindow.toggleHide()
   })
 }
 
