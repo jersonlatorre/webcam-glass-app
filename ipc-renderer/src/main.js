@@ -8,7 +8,8 @@ const params = {
   opacity: 0.4,
   rounded: 10,
   brightnessLevel: 1,
-  grayscaleLevel: 0
+  grayscaleLevel: 0,
+  contrastLevel: 1
 }
 
 document.addEventListener('mouseenter', () => {
@@ -40,7 +41,7 @@ window.onload = () => {
   document.querySelector('.tp-dfwv').style.opacity = 0
   document.querySelector('#handlers').style.opacity = 0
 
-  document.getElementsByTagName('canvas')[0].style.filter = 'brightness(' + params.brightnessLevel + ')'
+  updateFilters()
 }
 
 document.addEventListener('mousedown', (e) => {
@@ -79,13 +80,15 @@ function setup() {
   })
 
   panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0, max: 5, step: 0.1 }).on('change', (e) => {
-    document.getElementsByTagName('canvas')[0].style.filter =
-      'brightness(' + e.value + ') grayscale(' + params.grayscaleLevel + ')'
+    updateFilters()
+  })
+  
+  panel.addInput(params, 'grayscaleLevel', { label: 'Grayscale', min: 0, max: 1, step: 0.1 }).on('change', (e) => {
+    updateFilters()
   })
 
-  panel.addInput(params, 'grayscaleLevel', { label: 'Grayscale', min: 0, max: 1, step: 0.1 }).on('change', (e) => {
-    document.getElementsByTagName('canvas')[0].style.filter =
-      'brightness(' + params.brightnessLevel + ') grayscale(' + e.value + ')'
+  panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 1.5, step: 0.1 }).on('change', (e) => {
+    updateFilters()
   })
 }
 
@@ -123,4 +126,15 @@ function noTouchPanel(e) {
     y < panelBounds.y ||
     y > panelBounds.y + panelBounds.height
   )
+}
+
+function updateFilters() {
+  document.getElementsByTagName('canvas')[0].style.filter =
+    'brightness(' +
+    params.brightnessLevel +
+    ') grayscale(' +
+    params.grayscaleLevel +
+    ') contrast(' +
+    params.contrastLevel +
+    ')'
 }
