@@ -5,10 +5,13 @@ let isVideoLoaded = false
 
 document.addEventListener('mouseenter', () => {
   document.querySelector('.tp-dfwv').style.opacity = 1
+  document.querySelector('#handlers').style.opacity = 1
+  
 })
 
 document.addEventListener('mouseleave', () => {
   document.querySelector('.tp-dfwv').style.opacity = 0
+  document.querySelector('#handlers').style.opacity = 0
 })
 
 ipcRenderer.on('update-opacity', (e, v) => {
@@ -18,6 +21,7 @@ ipcRenderer.on('update-opacity', (e, v) => {
 
 ipcRenderer.on('maximize', (e) => {
   document.querySelector('.tp-dfwv').style.opacity = 0
+  document.querySelector('#handlers').style.opacity = 0
 })
 
 ipcRenderer.on('minimize', (e) => {
@@ -27,6 +31,7 @@ ipcRenderer.on('minimize', (e) => {
 window.onload = () => {
   ipcRenderer.send('renderer-loaded')
   document.querySelector('.tp-dfwv').style.opacity = 0
+  document.querySelector('#handlers').style.opacity = 0
 }
 
 document.addEventListener('mousedown', (e) => {
