@@ -8,7 +8,7 @@ const params = {
   opacity: 0.4,
   rounded: 10,
   brightnessLevel: 1,
-  grayscaleLevel: 0,
+  saturationLevel: 1,
   contrastLevel: 1
 }
 
@@ -83,7 +83,7 @@ function setup() {
     updateFilters()
   })
   
-  panel.addInput(params, 'grayscaleLevel', { label: 'Grayscale', min: 0, max: 1, step: 0.1 }).on('change', (e) => {
+  panel.addInput(params, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', (e) => {
     updateFilters()
   })
 
@@ -132,8 +132,8 @@ function updateFilters() {
   document.getElementsByTagName('canvas')[0].style.filter =
     'brightness(' +
     params.brightnessLevel +
-    ') grayscale(' +
-    params.grayscaleLevel +
+    ') saturate(' +
+    params.saturationLevel +
     ') contrast(' +
     params.contrastLevel +
     ')'
