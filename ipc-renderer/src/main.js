@@ -8,7 +8,7 @@ let isMaximized = true
 
 const params = {
   opacity: 0.4,
-  rounded: 0,
+  roundedType: 'oval',
   brightnessLevel: 1,
   saturationLevel: 1,
   contrastLevel: 1
@@ -72,22 +72,22 @@ function setup() {
 
   panel = new Tweakpane()
 
-  panel.addInput(params, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
-    ipcRenderer.send('update-opacity', params.opacity)
-  })
-
   panel
-    .addInput(params, 'rounded', {
+    .addInput(params, 'roundedType', {
       label: 'Rounded',
       options: {
-        oval: 0,
-        corners: 1,
-        none: 2
+        oval: 'oval',
+        corners: 'corners',
+        none: 'none'
       }
     })
     .on('change', (e) => {
       updateControllers()
     })
+
+  panel.addInput(params, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
+    ipcRenderer.send('update-opacity', params.opacity)
+  })
 
   panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', (e) => {
     updateControllers()
@@ -159,28 +159,23 @@ function hideUI() {
 }
 
 function updateCorners() {
-  ipcRenderer.send('log', params.rounded)
-
   if (isMaximized) {
     document.getElementsByTagName('canvas')[0].style.borderRadius = 0
     return
   }
 
-  switch (params.rounded) {
-    case 0: {
-      ipcRenderer.send('log', 'cero')
+  switch (params.roundedType) {
+    case 'oval': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = '50%'
       break
     }
 
-    case 1: {
-      ipcRenderer.send('log', 'uno')
+    case 'corners': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = '30px'
       break
     }
 
-    case 2: {
-      ipcRenderer.send('log', 'dos')
+    case 'none': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = 0
       break
     }
