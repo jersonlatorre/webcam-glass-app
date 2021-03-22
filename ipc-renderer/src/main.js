@@ -4,7 +4,7 @@ let video
 let isVideoLoaded = false
 let panel
 
-let isMaximized = true
+let isMaximized = false
 
 const params = {
   opacity: 0.4,

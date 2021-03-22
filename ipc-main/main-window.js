@@ -18,7 +18,7 @@ module.exports = class MainWindow extends BrowserWindow {
       }
     })
 
-    this.isMaximized = true
+    this.isMaximized = false
     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
     this.savedMouseDownPositionBeforeDragging = null
     this.isMaximized = false
@@ -29,7 +29,7 @@ module.exports = class MainWindow extends BrowserWindow {
 
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
-    this.toggleFullScreen()
+    // this.toggleFullScreen()
   }
 
   update() {
