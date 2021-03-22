@@ -12,10 +12,7 @@
 
 ### Shortcuts
 - Toggle Fullscreen: **Ctrl**+**Alt**+**F**
-- Toggle Show/Hide: **Ctrl**+**Alt**+**H**
-- Decrease Opacity Level: **Ctrl**+**Alt**+**1**
-- Increase Opacity Level: **Ctrl**+**Alt**+**2**
-- Exit: **Alt**+**F4** (Windows), **Ctrl**+**Esc** (Linux), **Ctrl**+**Q** (MacOS)
+- Exit: **Ctrl+Alt+Q**
 
 ### Features
 - You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can **make presentations and tutorials** using this tool.
