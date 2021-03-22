@@ -2,11 +2,18 @@ const ipcRenderer = require('electron').ipcRenderer
 
 let video
 let isVideoLoaded = false
+let panel
+
+const params = {
+  opacity: 0.4,
+  rounded: 10,
+  brightnessLevel: 1
+}
+
 
 document.addEventListener('mouseenter', () => {
   document.querySelector('.tp-dfwv').style.opacity = 1
   document.querySelector('#handlers').style.opacity = 1
-  
 })
 
 document.addEventListener('mouseleave', () => {
@@ -32,6 +39,8 @@ window.onload = () => {
   ipcRenderer.send('renderer-loaded')
   document.querySelector('.tp-dfwv').style.opacity = 0
   document.querySelector('#handlers').style.opacity = 0
+
+  document.getElementsByTagName('canvas')[0].style.filter = 'brightness(' + params.brightnessLevel + ')'
 }
 
 document.addEventListener('mousedown', (e) => {
@@ -54,28 +63,25 @@ document.addEventListener('dblclick', (e) => {
   ipcRenderer.send('dblclick')
 })
 
-const params = {
-  opacity: 0.4,
-  rounded: 10
-}
-
-let panel
-
 function setup() {
   createCanvas(windowWidth, windowHeight)
   video = createCapture(VIDEO, onVideoLoaded)
   video.hide()
-
+  
   panel = new Tweakpane()
-
+  
   panel.addInput(params, 'opacity', { min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
     ipcRenderer.send('update-opacity', params.opacity)
   })
-
+  
   panel.addInput(params, 'rounded', { min: 0, max: 100, step: 1 }).on('change', (e) => {
     // ipcRenderer.send('log', e.value)
     document.getElementsByTagName('canvas')[0].style.borderRadius = e.value + '%'
-
+  })
+  
+  panel.addInput(params, 'brightnessLevel', { min: 0, max: 5, step: 0.1 }).on('change', (e) => {
+    // ipcRenderer.send('log', e.value)
+    document.getElementsByTagName('canvas')[0].style.filter = 'brightness(' + e.value + ')'
   })
 }
 
