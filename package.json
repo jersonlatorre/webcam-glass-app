@@ -6,14 +6,14 @@
 		"email": "jerson.latorre@gmail.com"
 	},
 	"description": "Webcam tool for making tutorials or video conferencing",
-	"version": "1.0",
+	"version": "1.0.0",
 	"main": "ipc-main/index.js",
 	"license": "MIT",
 	"scripts": {
 		"start": "node_modules/.bin/electron .",
 		"buildWindows": "electron-packager --electron-version='9.4.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
 		"buildMacOS": "electron-packager --electron-version='9.4.0' --platform='darwin' --overwrite .",
-		"buildLinux": "electron-builder ."
+		"buildLinux": "electron-builder"
 	},
 	"build": {
 		"appId": "997044c5-1343-4138-b561-442d35a32460",
