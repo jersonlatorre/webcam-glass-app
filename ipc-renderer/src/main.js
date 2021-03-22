@@ -7,9 +7,9 @@ let panel
 const params = {
   opacity: 0.4,
   rounded: 10,
-  brightnessLevel: 1
+  brightnessLevel: 1,
+  grayscaleLevel: 0
 }
-
 
 document.addEventListener('mouseenter', () => {
   document.querySelector('.tp-dfwv').style.opacity = 1
@@ -67,21 +67,25 @@ function setup() {
   createCanvas(windowWidth, windowHeight)
   video = createCapture(VIDEO, onVideoLoaded)
   video.hide()
-  
+
   panel = new Tweakpane()
-  
+
   panel.addInput(params, 'opacity', { min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
     ipcRenderer.send('update-opacity', params.opacity)
   })
-  
-  panel.addInput(params, 'rounded', { min: 0, max: 100, step: 1 }).on('change', (e) => {
-    // ipcRenderer.send('log', e.value)
+
+  panel.addInput(params, 'rounded', { label: 'Rounded', min: 0, max: 100, step: 1 }).on('change', (e) => {
     document.getElementsByTagName('canvas')[0].style.borderRadius = e.value + '%'
   })
-  
-  panel.addInput(params, 'brightnessLevel', { min: 0, max: 5, step: 0.1 }).on('change', (e) => {
-    // ipcRenderer.send('log', e.value)
-    document.getElementsByTagName('canvas')[0].style.filter = 'brightness(' + e.value + ')'
+
+  panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0, max: 5, step: 0.1 }).on('change', (e) => {
+    document.getElementsByTagName('canvas')[0].style.filter =
+      'brightness(' + e.value + ') grayscale(' + params.grayscaleLevel + ')'
+  })
+
+  panel.addInput(params, 'grayscaleLevel', { label: 'Grayscale', min: 0, max: 1, step: 0.1 }).on('change', (e) => {
+    document.getElementsByTagName('canvas')[0].style.filter =
+      'brightness(' + params.brightnessLevel + ') grayscale(' + e.value + ')'
   })
 }
 
