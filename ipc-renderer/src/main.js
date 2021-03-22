@@ -8,34 +8,33 @@ let isMaximized = true
 
 const params = {
   opacity: 0.4,
-  rounded: 1,
+  rounded: 0,
   brightnessLevel: 1,
   saturationLevel: 1,
   contrastLevel: 1
 }
 
 document.addEventListener('mouseenter', () => {
-  document.querySelector('.tp-dfwv').style.opacity = 1
-  document.querySelector('#handlers').style.opacity = 1
+  showUI()
 })
 
 document.addEventListener('mouseleave', () => {
-  document.querySelector('.tp-dfwv').style.opacity = 0
-  document.querySelector('#handlers').style.opacity = 0
+  hideUI()
 })
 
-ipcRenderer.on('update-opacity', (e, v) => {
-  params.opacity = v
+ipcRenderer.on('update-opacity', (e, opacity) => {
+  params.opacity = opacity
   panel.refresh()
 })
 
 ipcRenderer.on('maximize', (e) => {
   isMaximized = true
+  hideUI()
 })
 
 ipcRenderer.on('minimize', (e) => {
-  updateControllers()
   isMaximized = false
+  updateControllers()
 })
 
 window.onload = () => {
@@ -43,7 +42,7 @@ window.onload = () => {
   document.querySelector('.tp-dfwv').style.opacity = 0
   document.querySelector('#handlers').style.opacity = 0
   updateControllers()
-  document.getElementsByTagName('canvas')[0].style.borderRadius = 0
+  updateCorners()
 }
 
 document.addEventListener('mousedown', (e) => {
@@ -73,15 +72,24 @@ function setup() {
 
   panel = new Tweakpane()
 
-  panel.addInput(params, 'opacity', { min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
+  panel.addInput(params, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
     ipcRenderer.send('update-opacity', params.opacity)
   })
 
-  panel.addInput(params, 'rounded', { label: 'Rounded', min: 0, max: 1, step: 0.01 }).on('change', (e) => {
-    updateControllers()
-  })
+  panel
+    .addInput(params, 'rounded', {
+      label: 'Rounded',
+      options: {
+        oval: 0,
+        corners: 1,
+        none: 2
+      }
+    })
+    .on('change', (e) => {
+      updateControllers()
+    })
 
-  panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0, max: 5, step: 0.1 }).on('change', (e) => {
+  panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', (e) => {
     updateControllers()
   })
 
@@ -89,7 +97,7 @@ function setup() {
     updateControllers()
   })
 
-  panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 1.5, step: 0.1 }).on('change', (e) => {
+  panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 2, step: 0.1 }).on('change', (e) => {
     updateControllers()
   })
 }
@@ -98,9 +106,8 @@ function draw() {
   clear()
 
   if (isMaximized) {
-    document.querySelector('.tp-dfwv').style.opacity = 0
-    document.querySelector('#handlers').style.opacity = 0
-    document.getElementsByTagName('canvas')[0].style.borderRadius = 0
+    hideUI()
+    updateCorners()
   }
 
   if (isVideoLoaded) {
@@ -137,7 +144,50 @@ function noTouchPanel(e) {
 }
 
 function updateControllers() {
-  document.getElementsByTagName('canvas')[0].style.borderRadius = params.rounded * 100 + '%'
+  updateCorners()
+  updateFilters()
+}
+
+function showUI() {
+  document.querySelector('.tp-dfwv').style.opacity = 1
+  document.querySelector('#handlers').style.opacity = 1
+}
+
+function hideUI() {
+  document.querySelector('.tp-dfwv').style.opacity = 0
+  document.querySelector('#handlers').style.opacity = 0
+}
+
+function updateCorners() {
+  ipcRenderer.send('log', params.rounded)
+
+  if (isMaximized) {
+    document.getElementsByTagName('canvas')[0].style.borderRadius = 0
+    return
+  }
+
+  switch (params.rounded) {
+    case 0: {
+      ipcRenderer.send('log', 'cero')
+      document.getElementsByTagName('canvas')[0].style.borderRadius = '50%'
+      break
+    }
+
+    case 1: {
+      ipcRenderer.send('log', 'uno')
+      document.getElementsByTagName('canvas')[0].style.borderRadius = '30px'
+      break
+    }
+
+    case 2: {
+      ipcRenderer.send('log', 'dos')
+      document.getElementsByTagName('canvas')[0].style.borderRadius = 0
+      break
+    }
+  }
+}
+
+function updateFilters() {
   document.getElementsByTagName('canvas')[0].style.filter =
     'brightness(' +
     params.brightnessLevel +
