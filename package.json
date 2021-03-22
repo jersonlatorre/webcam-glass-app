@@ -6,7 +6,7 @@
 		"email": "jerson.latorre@gmail.com"
 	},
 	"description": "Webcam tool for making tutorials or video conferencing",
-	"version": "0.8.0",
+	"version": "1.0",
 	"main": "ipc-main/index.js",
 	"license": "MIT",
 	"scripts": {
