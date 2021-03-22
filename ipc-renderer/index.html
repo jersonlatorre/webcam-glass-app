@@ -2,28 +2,112 @@
 <html lang="en">
 
 <head>
-	<title>•</title>
-	<style>
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			margin: 0;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			background-color: transparent;
-		}
+  <title></title>
+  <style>
+    body {
+      position: relative;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: transparent;
+    }
 
-		canvas {
-			transform: scale(-1, 1);
-			background-color: transparent;
-		}
-	</style>
+    canvas {
+      transform: scale(-1, 1);
+      background-color: transparent;
+    }
+
+    #handlers {
+      position: absolute;
+      z-index: 100;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: 0.2s;
+    }
+
+    #handler-top-left,
+    #handler-top-right,
+    #handler-bottom-left,
+    #handler-bottom-right {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-position: center;
+      background-size: cover;
+    }
+
+    #handler-top-left {
+      top: 0;
+      left: 0;
+      background-image: url(./assets/top-left.svg);
+    }
+
+    #handler-top-right {
+      top: 0;
+      right: 0;
+      background-image: url(./assets/top-right.svg);
+    }
+
+    #handler-bottom-left {
+      bottom: 0;
+      left: 0;
+      background-image: url(./assets/bottom-left.svg);
+    }
+
+    #handler-bottom-right {
+      bottom: 0;
+      right: 0;
+      background-image: url(./assets/bottom-right.svg);
+    }
+
+    .tp-dfwv {
+      transition: 0.2s;
+      z-index: 200;
+    }
+
+    :root {
+      --tp-base-background-color: hsla(0, 0%, 10%, 0.80);
+      --tp-base-shadow-color: hsla(0, 0%, 0%, 0.2);
+      --tp-button-background-color: hsla(0, 0%, 80%, 1.00);
+      --tp-button-background-color-active: hsla(0, 0%, 100%, 1.00);
+      --tp-button-background-color-focus: hsla(0, 0%, 95%, 1.00);
+      --tp-button-background-color-hover: hsla(0, 0%, 85%, 1.00);
+      --tp-button-foreground-color: hsla(0, 0%, 0%, 0.80);
+      --tp-folder-background-color: hsla(0, 0%, 0%, 0.30);
+      --tp-folder-background-color-active: hsla(0, 0%, 0%, 0.60);
+      --tp-folder-background-color-focus: hsla(0, 0%, 0%, 0.50);
+      --tp-folder-background-color-hover: hsla(0, 0%, 0%, 0.40);
+      --tp-folder-foreground-color: hsla(0, 0%, 100%, 0.50);
+      --tp-input-background-color: hsla(0, 0%, 0%, 0.30);
+      --tp-input-background-color-active: hsla(0, 0%, 0%, 0.60);
+      --tp-input-background-color-focus: hsla(0, 0%, 0%, 0.50);
+      --tp-input-background-color-hover: hsla(0, 0%, 0%, 0.40);
+      --tp-input-foreground-color: hsla(0, 0%, 100%, 0.50);
+      --tp-monitor-background-color: hsla(0, 0%, 0%, 0.30);
+      --tp-monitor-foreground-color: hsla(0, 0%, 100%, 0.30);
+      --tp-label-foreground-color: hsla(0, 0%, 100%, 0.50);
+      --tp-separator-color: hsla(0, 0%, 0%, 0.20);
+    }
+  </style>
 </head>
 
-<body></body>
+<body>
+  <div id="handlers">
+    <div id="handler-top-left"></div>
+    <div id="handler-top-right"></div>
+    <div id="handler-bottom-left"></div>
+    <div id="handler-bottom-right"></div>
+  </div>
+</body>
 <script src="lib/p5-1.2.0.min.js"></script>
+<script src="lib/tweakpane-2.1.2.min.js"></script>
 <script src="src/main.js"></script>
 
 </html>

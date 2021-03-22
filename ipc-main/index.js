@@ -1,14 +1,38 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
+const contextMenu = require('electron-context-menu')
 const MainWindow = require('./main-window')
 
-let mainWindow
+/**
+ * Context menu
+ */
 
+contextMenu({
+  prepend: (params, window) => [
+    {
+      label: 'Fullscreen',
+
+      click: () => {
+        mainWindow.toggleFullScreen()
+      }
+    }
+  ]
+})
 
 /**
  * Create the main window and manage its events
  */
+let mainWindow
+
 function createWindow() {
   mainWindow = new MainWindow()
+
+  ipcMain.on('log', (e, value) => {
+    console.log(value)
+  })
+
+  ipcMain.on('update-opacity', (e, opacity) => {
+    mainWindow.opacity = opacity
+  })
 
   ipcMain.on('mousedown', (e, position) => {
     mainWindow.onMouseDown(position)
@@ -55,7 +79,6 @@ function createWindow() {
   })
 }
 
-
 /**
  * Prevents multiple instances of main window
  */
@@ -71,7 +94,6 @@ if (!gotTheLock) {
     }
   })
 }
-
 
 /**
  * App listeners

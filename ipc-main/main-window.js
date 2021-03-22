@@ -3,10 +3,10 @@ const { BrowserWindow, screen } = require('electron')
 module.exports = class MainWindow extends BrowserWindow {
   constructor() {
     super({
-      width: 640,
-      height: 480,
-      minWidth: 200,
-      minHeight: 200,
+      width: 400,
+      height: 400,
+      minWidth: 273,
+      minHeight: 273,
       transparent: true,
       alwaysOnTop: true,
       resizable: true,
@@ -35,22 +35,24 @@ module.exports = class MainWindow extends BrowserWindow {
   update() {
     this.webContents.send('update-opacity', this.opacity)
   }
-
+  
   onMaximize() {
     this.isMaximized = true
     this.setIgnoreMouseEvents(true)
     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
     this.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
     this.setPosition(screen.getPrimaryDisplay().bounds.x, screen.getPrimaryDisplay().bounds.y)
+    this.webContents.send('maximize')
   }
-
+  
   onMinimize() {
     this.isMaximized = false
     this.setIgnoreMouseEvents(false)
     this.setSize(this.savedWindowBoundsForTogglingFullScreen.width, this.savedWindowBoundsForTogglingFullScreen.height)
     this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
+    this.webContents.send('minimize')
   }
-
+  
   onMouseDown(position) {
     this.isMouseDragging = true
     this.savedWindowBoundsBeforeDragging = this.getBounds()
