@@ -4,9 +4,11 @@ let video
 let isVideoLoaded = false
 let panel
 
+let isMaximized = true
+
 const params = {
   opacity: 0.4,
-  rounded: 10,
+  rounded: 1,
   brightnessLevel: 1,
   saturationLevel: 1,
   contrastLevel: 1
@@ -28,20 +30,20 @@ ipcRenderer.on('update-opacity', (e, v) => {
 })
 
 ipcRenderer.on('maximize', (e) => {
-  document.querySelector('.tp-dfwv').style.opacity = 0
-  document.querySelector('#handlers').style.opacity = 0
+  isMaximized = true
 })
 
 ipcRenderer.on('minimize', (e) => {
-  // document.querySelector('.tp-dfwv').style.opacity = 1
+  updateControllers()
+  isMaximized = false
 })
 
 window.onload = () => {
   ipcRenderer.send('renderer-loaded')
   document.querySelector('.tp-dfwv').style.opacity = 0
   document.querySelector('#handlers').style.opacity = 0
-
-  updateFilters()
+  updateControllers()
+  document.getElementsByTagName('canvas')[0].style.borderRadius = 0
 }
 
 document.addEventListener('mousedown', (e) => {
@@ -75,25 +77,31 @@ function setup() {
     ipcRenderer.send('update-opacity', params.opacity)
   })
 
-  panel.addInput(params, 'rounded', { label: 'Rounded', min: 0, max: 100, step: 1 }).on('change', (e) => {
-    document.getElementsByTagName('canvas')[0].style.borderRadius = e.value + '%'
+  panel.addInput(params, 'rounded', { label: 'Rounded', min: 0, max: 1, step: 0.01 }).on('change', (e) => {
+    updateControllers()
   })
 
   panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0, max: 5, step: 0.1 }).on('change', (e) => {
-    updateFilters()
+    updateControllers()
   })
-  
+
   panel.addInput(params, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', (e) => {
-    updateFilters()
+    updateControllers()
   })
 
   panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 1.5, step: 0.1 }).on('change', (e) => {
-    updateFilters()
+    updateControllers()
   })
 }
 
 function draw() {
   clear()
+
+  if (isMaximized) {
+    document.querySelector('.tp-dfwv').style.opacity = 0
+    document.querySelector('#handlers').style.opacity = 0
+    document.getElementsByTagName('canvas')[0].style.borderRadius = 0
+  }
 
   if (isVideoLoaded) {
     tint(255, 255 * params.opacity)
@@ -128,7 +136,8 @@ function noTouchPanel(e) {
   )
 }
 
-function updateFilters() {
+function updateControllers() {
+  document.getElementsByTagName('canvas')[0].style.borderRadius = params.rounded * 100 + '%'
   document.getElementsByTagName('canvas')[0].style.filter =
     'brightness(' +
     params.brightnessLevel +
