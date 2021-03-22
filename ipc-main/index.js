@@ -1,5 +1,4 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
-const contextMenu = require('electron-context-menu')
 const MainWindow = require('./main-window')
 
 /**

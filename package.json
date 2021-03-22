@@ -46,7 +46,5 @@
 	"devDependencies": {
 		"electron": "9.4.0"
 	},
-	"dependencies": {
-		"electron-context-menu": "^2.5.0"
-	}
+	"dependencies": {}
 }
