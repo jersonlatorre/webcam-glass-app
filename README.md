@@ -8,15 +8,11 @@
 
 <br>
 
-**Glass** is an app for making video conferences and video tutorials **blending the screen and the webcam** in fullscreen mode.
+- With Glass, you will be able to put the webcam over the screen with many viewing options, so you can **make presentations or tutorials** very easily..
 
 ### Shortcuts
-- Toggle Fullscreen: **Ctrl**+**Alt**+**F**
+- Enter/Exit Fullscreen: **Ctrl**+**Alt**+**F**
 - Exit: **Ctrl+Alt+Q**
-
-### Features
-- You can work on your screen when the webcam is showing transparently in fullscreen mode, so you can **make presentations and tutorials** using this tool.
-- Glass window is totally **resizable** and **draggable**.
 
 <p align="center"><a href="http://glass.surge.sh"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
 
