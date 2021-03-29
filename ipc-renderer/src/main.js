@@ -74,7 +74,10 @@ function setup() {
   video = createCapture(VIDEO, onVideoLoaded)
   video.hide()
 
-  panel = new Tweakpane()
+  panel = new Tweakpane({
+    title: 'Settings',
+    expanded: false
+  })
 
   panel
     .addInput(config, 'roundedType', {
@@ -109,6 +112,8 @@ function setup() {
     updateControllers()
     ipcRenderer.send('save-config', config)
   })
+
+  panel.addSeparator()
 
   panel
     .addButton({
