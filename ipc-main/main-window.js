@@ -29,7 +29,6 @@ module.exports = class MainWindow extends BrowserWindow {
 
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
-    // this.toggleFullScreen()
 
     setInterval(() => {
       this.update()
@@ -133,18 +132,4 @@ module.exports = class MainWindow extends BrowserWindow {
       this.setIgnoreMouseEvents(false)
     }
   }
-
-  // toggleHide() {
-  //   if (this.isVisible()) {
-  //     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
-  //     this.hide()
-  //   } else {
-  //     this.setSize(
-  //       this.savedWindowBoundsForTogglingFullScreen.width,
-  //       this.savedWindowBoundsForTogglingFullScreen.height
-  //     )
-  //     this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
-  //     this.show()
-  //   }
-  // }
 }

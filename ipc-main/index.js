@@ -64,10 +64,6 @@ function createWindow() {
   globalShortcut.register('Ctrl+Esc', () => {
     app.quit()
   })
-
-  // globalShortcut.register('Ctrl+Alt+H', () => {
-    // mainWindow.toggleHide()
-  // })
 }
 
 /**
