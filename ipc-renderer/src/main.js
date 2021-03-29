@@ -66,7 +66,7 @@ document.addEventListener('mouseup', (e) => {
 })
 
 document.addEventListener('dblclick', (e) => {
-  ipcRenderer.send('dblclick')
+  // ipcRenderer.send('dblclick')
 })
 
 function setup() {
