@@ -43,6 +43,10 @@ function createWindow() {
     mainWindow.toggleFullScreen()
   })
 
+  ipcMain.on('window-resized', (e, size) => {
+    mainWindow.onWindowResized(size)
+  })
+
   ipcMain.on('exit', () => {
     app.quit()
   })

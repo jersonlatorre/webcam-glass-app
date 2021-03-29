@@ -158,6 +158,7 @@ function onVideoLoaded() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight)
+  ipcRenderer.send('window-resized', { width: windowWidth, height: windowHeight })
 }
 
 function noTouchPanel(e) {
