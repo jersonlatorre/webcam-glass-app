@@ -5,9 +5,6 @@
 			"label": "start",
 			"type": "shell",
 			"command": "node_modules/.bin/electron .",
-      "windows": {
-        "command": ""
-      },
 			"group": {
 				"kind": "build",
 				"isDefault": true
