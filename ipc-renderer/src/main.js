@@ -14,11 +14,11 @@ const params = {
   contrastLevel: 1
 }
 
-document.addEventListener('mouseenter', () => {
+ipcRenderer.on('mouse-inside', (e) => {
   showUI()
 })
 
-document.addEventListener('mouseleave', () => {
+ipcRenderer.on('mouse-outside', (e) => {
   hideUI()
 })
 
@@ -101,17 +101,21 @@ function setup() {
     updateControllers()
   })
 
-  panel.addButton({
-    title: 'Fullscreen'
-  }).on('click', () => {
-    ipcRenderer.send('fullscreen')
-  })
+  panel
+    .addButton({
+      title: 'Fullscreen'
+    })
+    .on('click', () => {
+      ipcRenderer.send('fullscreen')
+    })
 
-  panel.addButton({
-    title: 'Exit'
-  }).on('click', () => {
-    ipcRenderer.send('exit')
-  })
+  panel
+    .addButton({
+      title: 'Exit'
+    })
+    .on('click', () => {
+      ipcRenderer.send('exit')
+    })
 }
 
 function draw() {

@@ -30,9 +30,29 @@ module.exports = class MainWindow extends BrowserWindow {
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
     // this.toggleFullScreen()
+
+    setInterval(() => {
+      this.update()
+    }, 100)
   }
 
   update() {
+    let mousePosition = screen.getCursorScreenPoint()
+    let bounds = this.getBounds()
+    let margin = 20
+    if (
+      mousePosition.x < bounds.x - margin ||
+      mousePosition.x > bounds.x + bounds.width + margin ||
+      mousePosition.y < bounds.y - margin ||
+      mousePosition.y > bounds.y + bounds.height + margin
+    ) {
+      this.webContents.send('mouse-outside')
+    } else {
+      this.webContents.send('mouse-inside')
+    }
+  }
+
+  updateOpacity() {
     this.webContents.send('update-opacity', this.opacity)
   }
 

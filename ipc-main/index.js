@@ -34,7 +34,7 @@ function createWindow() {
   })
 
   ipcMain.on('renderer-loaded', () => {
-    mainWindow.update()
+    mainWindow.updateOpacity()
   })
 
   ipcMain.on('fullscreen', () => {
