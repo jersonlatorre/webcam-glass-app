@@ -31,7 +31,9 @@ module.exports = class MainWindow extends BrowserWindow {
     this.setAlwaysOnTop(true)
 
     setInterval(() => {
-      this.update()
+      try {
+        this.update()
+      } catch (e) {}
     }, 100)
   }
 
