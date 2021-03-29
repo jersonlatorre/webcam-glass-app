@@ -13,6 +13,14 @@ const config = {
   contrastLevel: 1
 }
 
+document.body.addEventListener('mousemove', (e) => {
+  if (noTouchPanel(e)) {
+    document.body.style.cursor = 'move'
+  } else {
+    document.body.style.cursor = 'default'
+  }
+})
+
 ipcRenderer.on('mouse-inside', (e) => {
   showUI()
 })
