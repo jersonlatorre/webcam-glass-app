@@ -7,7 +7,7 @@ let panel
 let isMaximized = false
 
 const params = {
-  opacity: 0.4,
+  opacity: 0.5,
   roundedType: 'oval',
   brightnessLevel: 1,
   saturationLevel: 1,

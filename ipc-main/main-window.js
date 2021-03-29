@@ -23,7 +23,7 @@ module.exports = class MainWindow extends BrowserWindow {
     this.savedMouseDownPositionBeforeDragging = null
     this.isMaximized = false
     this.isMouseDragging = false
-    this.opacity = 0.4
+    this.opacity = 0.5
     this.dOpacity = 0.1
     this.menuBarVisible = false
 
