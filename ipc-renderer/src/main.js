@@ -202,7 +202,7 @@ function updateCorners() {
     }
 
     case 'corners': {
-      document.getElementsByTagName('canvas')[0].style.borderRadius = '30px'
+      document.getElementsByTagName('canvas')[0].style.borderRadius = '20px'
       break
     }
 
