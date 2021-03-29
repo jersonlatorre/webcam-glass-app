@@ -1,12 +1,13 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
 const MainWindow = require('./main-window')
 const Store = require('electron-store')
+const store = new Store()
 
 /**
  * Create the main window and manage its events
  */
+
 let mainWindow
-let store = new Store()
 
 function createWindow() {
   mainWindow = new MainWindow()
@@ -79,6 +80,7 @@ function createWindow() {
 /**
  * Prevents multiple instances of main window
  */
+
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
@@ -95,6 +97,7 @@ if (!gotTheLock) {
 /**
  * App listeners
  */
+
 app.on('ready', () => {
   setTimeout(function() {
     createWindow()
