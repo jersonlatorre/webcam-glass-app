@@ -3,10 +3,9 @@ const ipcRenderer = require('electron').ipcRenderer
 let video
 let isVideoLoaded = false
 let panel
-
 let isMaximized = false
 
-const params = {
+const config = {
   opacity: 0.5,
   roundedType: 'oval',
   brightnessLevel: 1,
@@ -23,7 +22,12 @@ ipcRenderer.on('mouse-outside', (e) => {
 })
 
 ipcRenderer.on('update-opacity', (e, opacity) => {
-  params.opacity = opacity
+  config.opacity = opacity
+  panel.refresh()
+})
+
+ipcRenderer.on('update-config', (e, c) => {
+  Object.assign(config, c)
   panel.refresh()
 })
 
@@ -73,7 +77,7 @@ function setup() {
   panel = new Tweakpane()
 
   panel
-    .addInput(params, 'roundedType', {
+    .addInput(config, 'roundedType', {
       label: 'Rounded',
       options: {
         oval: 'oval',
@@ -83,22 +87,27 @@ function setup() {
     })
     .on('change', (e) => {
       updateControllers()
+      ipcRenderer.send('save-config', config)
     })
 
-  panel.addInput(params, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
-    ipcRenderer.send('update-opacity', params.opacity)
+  panel.addInput(config, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
+    ipcRenderer.send('update-opacity', config.opacity)
+    ipcRenderer.send('save-config', config)
   })
 
-  panel.addInput(params, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', (e) => {
     updateControllers()
+    ipcRenderer.send('save-config', config)
   })
 
-  panel.addInput(params, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', (e) => {
     updateControllers()
+    ipcRenderer.send('save-config', config)
   })
 
-  panel.addInput(params, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 2, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 2, step: 0.1 }).on('change', (e) => {
     updateControllers()
+    ipcRenderer.send('save-config', config)
   })
 
   panel
@@ -127,7 +136,7 @@ function draw() {
   }
 
   if (isVideoLoaded) {
-    tint(255, 255 * params.opacity)
+    tint(255, 255 * config.opacity)
     if (windowWidth / windowHeight > 4 / 3) {
       let offset = 0.5 * (windowWidth * 3 / 4 - windowHeight)
       image(video, 0, -offset, windowWidth, windowWidth * 3 / 4)
@@ -180,7 +189,7 @@ function updateCorners() {
     return
   }
 
-  switch (params.roundedType) {
+  switch (config.roundedType) {
     case 'oval': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = '50%'
       break
@@ -201,10 +210,10 @@ function updateCorners() {
 function updateFilters() {
   document.getElementsByTagName('canvas')[0].style.filter =
     'brightness(' +
-    params.brightnessLevel +
+    config.brightnessLevel +
     ') saturate(' +
-    params.saturationLevel +
+    config.saturationLevel +
     ') contrast(' +
-    params.contrastLevel +
+    config.contrastLevel +
     ')'
 }

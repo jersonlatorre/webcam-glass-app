@@ -51,8 +51,8 @@ module.exports = class MainWindow extends BrowserWindow {
     }
   }
 
-  updateOpacity() {
-    this.webContents.send('update-opacity', this.opacity)
+  updateConfig(config) {
+    this.webContents.send('update-config', config)
   }
 
   onMaximize() {

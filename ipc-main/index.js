@@ -1,10 +1,12 @@
 const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron')
 const MainWindow = require('./main-window')
+const Store = require('electron-store')
 
 /**
  * Create the main window and manage its events
  */
 let mainWindow
+let store = new Store()
 
 function createWindow() {
   mainWindow = new MainWindow()
@@ -34,7 +36,7 @@ function createWindow() {
   })
 
   ipcMain.on('renderer-loaded', () => {
-    mainWindow.updateOpacity()
+    mainWindow.updateConfig(store.get('config'))
   })
 
   ipcMain.on('fullscreen', () => {
@@ -43,6 +45,10 @@ function createWindow() {
 
   ipcMain.on('exit', () => {
     app.quit()
+  })
+
+  ipcMain.on('save-config', (e, config) => {
+    store.set('config', config)
   })
 
   globalShortcut.register('CommandOrControl+Alt+F', () => {
