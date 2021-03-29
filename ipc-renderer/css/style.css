@@ -1,3 +1,5 @@
+/* general */
+
 body {
   position: relative;
   display: grid;
@@ -14,6 +16,9 @@ canvas {
   transform: scale(-1, 1);
   background-color: transparent;
 }
+
+
+/* handlers */
 
 #handlers {
   position: absolute;
@@ -60,6 +65,9 @@ canvas {
   right: 0;
   background-image: url(../assets/bottom-right.svg);
 }
+
+
+/* settings panel */
 
 .tp-dfwv {
   transition: 0.2s;
