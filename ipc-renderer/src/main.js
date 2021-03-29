@@ -105,7 +105,7 @@ function setup() {
     ipcRenderer.send('save-config', config)
   })
 
-  panel.addInput(config, 'contrastLevel', { label: 'Contrast', min: 0.5, max: 2, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'contrastLevel', { label: 'Contrast', min: 0.3, max: 2, step: 0.1 }).on('change', (e) => {
     updateControllers()
     ipcRenderer.send('save-config', config)
   })
