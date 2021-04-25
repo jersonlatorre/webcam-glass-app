@@ -51,8 +51,7 @@ ipcRenderer.on('minimize', (e) => {
 
 window.onload = () => {
   ipcRenderer.send('renderer-loaded')
-  document.querySelector('.tp-dfwv').style.opacity = 0
-  document.querySelector('#handlers').style.opacity = 0
+  hideUI()
   updateControllers()
   updateCorners()
 }
