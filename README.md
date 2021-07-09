@@ -6,7 +6,7 @@ With Glass you will be able to put the webcam over the screen with many viewing 
 - Enter/Exit Fullscreen: **Ctrl**+**Alt**+**F**
 - Exit: **Ctrl+Alt+Q**
 
-<p align="center"><a href="http://glass.surge.sh"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
+<p align="center"><a href="https://github.com/jersonlatorre/webcam-glass/releases/tag/0.7.2"><img src="https://i.imgur.com/LKSKpt3.png" width="230" /></a></p>
 
 → ***Windows**, **MacOS** and **Linux** versions available.*
 
