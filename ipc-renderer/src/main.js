@@ -10,7 +10,8 @@ const config = {
   roundedType: 'oval',
   brightnessLevel: 1,
   saturationLevel: 1,
-  contrastLevel: 1
+  contrastLevel: 1,
+  cameraId: ''
 }
 
 document.body.addEventListener('mousemove', (e) => {
@@ -36,6 +37,7 @@ ipcRenderer.on('update-opacity', (e, opacity) => {
 
 ipcRenderer.on('update-config', (e, c) => {
   Object.assign(config, c)
+  createVideoCapture(config.cameraId)
   panel.refresh()
 })
 
@@ -76,12 +78,11 @@ document.addEventListener('dblclick', (e) => {
   // ipcRenderer.send('dblclick')
 })
 
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight)
-  video = createCapture(VIDEO, onVideoLoaded)
-  video.hide()
 
   panel = new Tweakpane({
+    container: document.querySelector('#tweak-container'),
     title: 'Settings',
     expanded: false
   })
@@ -119,6 +120,16 @@ function setup() {
     updateControllers()
     ipcRenderer.send('save-config', config)
   })
+
+  panel
+    .addInput(config, 'cameraId', {
+      label: 'Camera',
+      options: await getCameraOptions()
+    })
+    .on('change', (e) => {
+      createVideoCapture(e.value)
+      ipcRenderer.send('save-config', config)
+    })
 
   panel.addSeparator()
 
@@ -169,7 +180,7 @@ function windowResized() {
 }
 
 function noTouchPanel(e) {
-  let panelBounds = document.querySelector('.tp-dfwv').getBoundingClientRect()
+  let panelBounds = document.querySelector('#tweak-container').getBoundingClientRect()
   let x = e.x
   let y = e.y
 
@@ -187,12 +198,12 @@ function updateControllers() {
 }
 
 function showUI() {
-  document.querySelector('.tp-dfwv').style.opacity = 1
+  document.querySelector('#tweak-container').style.opacity = 1
   document.querySelector('#handlers').style.opacity = 1
 }
 
 function hideUI() {
-  document.querySelector('.tp-dfwv').style.opacity = 0
+  document.querySelector('#tweak-container').style.opacity = 0
   document.querySelector('#handlers').style.opacity = 0
 }
 
@@ -229,4 +240,41 @@ function updateFilters() {
     ') contrast(' +
     config.contrastLevel +
     ')'
+}
+
+function createVideoCapture(deviceId = '') {
+    const constraints = deviceId 
+        ? {
+            audio: false,
+            video: { deviceId }
+          }
+        : VIDEO
+    
+    if (video) {
+        video.remove()
+    }
+
+    video = createCapture(constraints, onVideoLoaded)
+    video.hide()
+}
+
+async function getCameraOptions() {
+    const cameras = await getCameraDevices()
+
+    return cameras.reduce((camOptions, device) => {
+        const label = device.label || ('Camera ' + device.deviceId)
+        camOptions[label] = device.deviceId
+        return camOptions
+    }, {})
+}
+
+async function getCameraDevices() {
+    if (!('mediaDevices' in navigator)) {
+        return []
+    }
+
+    const devices = await navigator.mediaDevices.enumerateDevices()
+
+    return devices
+        .filter(device => device.kind === 'videoinput')    
 }

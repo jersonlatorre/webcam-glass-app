@@ -21,7 +21,10 @@
       "output": "dist/linux"
     },
     "linux": {
-      "target": [ "AppImage", "deb" ],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "category": "Utility"
     },
     "dmg": {
