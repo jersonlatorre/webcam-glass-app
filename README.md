@@ -1,6 +1,6 @@
 # Glass
 
-- With Glass, you will be able to put the webcam over the screen with many viewing options, so you can **make presentations or tutorials** very easily.
+With Glass you will be able to put the webcam over the screen with many viewing options, so you can **make presentations or tutorials** very easily.
 
 ### Shortcuts
 - Enter/Exit Fullscreen: **Ctrl**+**Alt**+**F**
