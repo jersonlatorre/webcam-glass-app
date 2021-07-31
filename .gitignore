@@ -5,3 +5,4 @@ release-builds
 yarn.lock
 Glass*
 dist
+.DS_Store
