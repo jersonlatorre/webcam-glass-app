@@ -160,12 +160,14 @@ function draw() {
 
   if (isVideoLoaded) {
     tint(255, 255 * config.opacity)
-    if (windowWidth / windowHeight > 4 / 3) {
-      let offset = 0.5 * (windowWidth * 3 / 4 - windowHeight)
-      image(video, 0, -offset, windowWidth, windowWidth * 3 / 4)
+    let ratio = video.width / video.height
+
+    if (windowWidth / windowHeight > ratio) {
+      let offset = 0.5 * (windowWidth * 1 / ratio - windowHeight)
+      image(video, 0, -offset, windowWidth, windowWidth * 1 / ratio)
     } else {
-      let offset = 0.5 * (windowHeight * 4 / 3 - windowWidth)
-      image(video, -offset, 0, windowHeight * 4 / 3, windowHeight)
+      let offset = 0.5 * (windowHeight * ratio - windowWidth)
+      image(video, -offset, 0, windowHeight * ratio, windowHeight)
     }
   }
 }
