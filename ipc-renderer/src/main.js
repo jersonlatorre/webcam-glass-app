@@ -1,13 +1,13 @@
 const ipcRenderer = require('electron').ipcRenderer
 
 let video
-let isVideoLoaded = false
 let panel
+let isVideoLoaded = false
 let isMaximized = false
 
 const config = {
   opacity: 0.5,
-  roundedType: 'oval',
+  panelShape: 'oval',
   brightnessLevel: 1,
   saturationLevel: 1,
   contrastLevel: 1,
@@ -88,12 +88,11 @@ async function setup() {
   })
 
   panel
-    .addInput(config, 'roundedType', {
-      label: 'Rounded',
+    .addInput(config, 'panelShape', {
+      label: 'Shape',
       options: {
         oval: 'oval',
-        corners: 'corners',
-        none: 'none'
+        rectangle: 'rectangle',
       }
     })
     .on('change', (e) => {
@@ -215,19 +214,14 @@ function updateCorners() {
     return
   }
 
-  switch (config.roundedType) {
+  switch (config.panelShape) {
     case 'oval': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = '50%'
       break
     }
 
-    case 'corners': {
+    case 'rectangle': {
       document.getElementsByTagName('canvas')[0].style.borderRadius = '20px'
-      break
-    }
-
-    case 'none': {
-      document.getElementsByTagName('canvas')[0].style.borderRadius = 0
       break
     }
   }
