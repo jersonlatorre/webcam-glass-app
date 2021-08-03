@@ -7,9 +7,10 @@ const store = new Store()
  * Create the main window and manage its events
  */
 
-let mainWindow
+let mainWindow = null
 
 function createWindow() {
+  if (mainWindow) return
   mainWindow = new MainWindow()
 
   ipcMain.on('log', (e, value) => {
@@ -78,23 +79,6 @@ function createWindow() {
 }
 
 /**
- * Prevents multiple instances of main window
- */
-
-const gotTheLock = app.requestSingleInstanceLock()
-
-if (!gotTheLock) {
-  app.quit()
-} else {
-  app.on('second-instance', (event, commandLine, workingDirectory) => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore()
-      mainWindow.focus()
-    }
-  })
-}
-
-/**
  * App listeners
  */
 
@@ -104,14 +88,14 @@ app.on('ready', () => {
   }, 1000)
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
+  }
+})
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit()
   }
 })
