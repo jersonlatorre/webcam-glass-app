@@ -11,8 +11,8 @@
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
-    "buildWindows": "./node_modules/.bin/electron-packager --electron-version='11.0.1' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=dist/windows --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
-    "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='11.0.1' --platform='darwin' --overwrite . --out=dist/macOS",
+    "buildWindows": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=dist/windows --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
+    "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --platform='darwin' --overwrite . --out=dist/macOS",
     "buildLinux": "./node_modules/.bin/electron-builder"
   },
   "build": {
@@ -47,7 +47,7 @@
     }
   },
   "devDependencies": {
-    "electron": "11.0.1",
+    "electron": "11.1.0",
     "electron-builder": "22.10.5",
     "electron-packager": "15.2.0"
   },
