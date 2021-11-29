@@ -3,7 +3,6 @@ npm-debug.log
 yarn-error.log
 package-lock.json
 release-builds
-yarn.lock
 Glass*
 dist
 .DS_Store
