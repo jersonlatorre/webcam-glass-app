@@ -47,11 +47,12 @@
     }
   },
   "devDependencies": {
-    "electron": "15.5.5",
-    "electron-builder": "22.10.5",
-    "electron-packager": "15.2.0"
+    "electron": "^20.1.0",
+    "electron-builder": "^23.3.3",
+    "electron-packager": "^16.0.0"
   },
   "dependencies": {
-    "electron-store": "7.0.2"
+    "electron-store": "7.0.2",
+    "tweakpane": "^3.1.0"
   }
 }

@@ -15,8 +15,10 @@ module.exports = class MainWindow extends BrowserWindow {
       opacity: true,
       frame: false,
       webPreferences: {
-        nodeIntegration: true
-      }
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+      },
     })
 
     this.store = new Store()
@@ -42,6 +44,7 @@ module.exports = class MainWindow extends BrowserWindow {
 
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
+    // this.webContents.openDevTools()
 
     setInterval(() => {
       try {
@@ -54,12 +57,7 @@ module.exports = class MainWindow extends BrowserWindow {
     let mousePosition = screen.getCursorScreenPoint()
     let bounds = this.getBounds()
     let margin = 20
-    if (
-      mousePosition.x < bounds.x - margin ||
-      mousePosition.x > bounds.x + bounds.width + margin ||
-      mousePosition.y < bounds.y - margin ||
-      mousePosition.y > bounds.y + bounds.height + margin
-    ) {
+    if (mousePosition.x < bounds.x - margin || mousePosition.x > bounds.x + bounds.width + margin || mousePosition.y < bounds.y - margin || mousePosition.y > bounds.y + bounds.height + margin) {
       this.webContents.send('mouse-outside')
     } else {
       this.webContents.send('mouse-inside')
@@ -103,22 +101,14 @@ module.exports = class MainWindow extends BrowserWindow {
       let offsetY = position.y - this.savedMouseDownPositionBeforeDragging.y
       let x = this.savedWindowBoundsBeforeDragging.x + offsetX
       let y = this.savedWindowBoundsBeforeDragging.y + offsetY
-
-      this.store.set('window-position', {
-        x: x,
-        y: y
-      })
-
+      this.store.set('window-position', { x: x, y: y })
       this.setPosition(x, y)
       this.setSize(this.savedWindowBoundsBeforeDragging.width, this.savedWindowBoundsBeforeDragging.height)
     }
   }
 
   onWindowResized(size) {
-    this.store.set('window-size', {
-      width: size.width,
-      height: size.height
-    })
+    this.store.set('window-size', { width: size.width, height: size.height })
   }
 
   onDoubleClick() {
@@ -143,19 +133,13 @@ module.exports = class MainWindow extends BrowserWindow {
     this.opacity -= this.dOpacity
     if (this.opacity < 0.1) this.opacity = 0.1
     this.webContents.send('update-opacity', this.opacity)
-
-    if (this.isMaximized) {
-      this.setIgnoreMouseEvents(true)
-    } else {
-      this.setIgnoreMouseEvents(false)
-    }
+    this.setIgnoreMouseEvents(this.isMaximized)
   }
 
   increaseOpacity() {
     this.opacity += this.dOpacity
     if (this.opacity > 1) this.opacity = 1
     this.webContents.send('update-opacity', this.opacity)
-
     if (Math.abs(this.opacity - 1) < 0.01) {
       this.setIgnoreMouseEvents(false)
     }
