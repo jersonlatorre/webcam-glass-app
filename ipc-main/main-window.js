@@ -4,10 +4,10 @@ const Store = require('electron-store')
 module.exports = class MainWindow extends BrowserWindow {
   constructor() {
     super({
-      width: 273,
-      height: 273,
-      minWidth: 273,
-      minHeight: 273,
+      width: 240,
+      height: 240,
+      minWidth: 240,
+      minHeight: 240,
       transparent: true,
       alwaysOnTop: true,
       resizable: true,
