@@ -12,7 +12,7 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "buildWindows": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=dist/windows --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
-    "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --platform='darwin' --overwrite . --out=dist/macOS",
+    "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --platform='darwin' --overwrite . --out=dist/macOS --icon=build/icon.png",
     "buildLinux": "./node_modules/.bin/electron-builder"
   },
   "build": {
