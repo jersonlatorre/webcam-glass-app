@@ -22,45 +22,52 @@ module.exports = class MainWindow extends BrowserWindow {
     })
 
     this.store = new Store()
+    this.initializeWindowProperties()
+    this.loadFile('ipc-renderer/index.html')
+    this.setAlwaysOnTop(true)
+    
+    this.updateInterval = setInterval(() => this.update(), 100)
+    
+    this.on('closed', () => {
+      clearInterval(this.updateInterval)
+    })
+  }
 
-    let windowPosition = this.store.get('window-position')
-    if (windowPosition) {
-      this.setPosition(windowPosition.x, windowPosition.y)
-    }
-
-    let windowSize = this.store.get('window-size')
-    if (windowSize) {
-      this.setSize(windowSize.width, windowSize.height)
-    }
-
+  initializeWindowProperties() {
+    this.setPositionAndSize()
     this.isMaximized = false
     this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
     this.savedMouseDownPositionBeforeDragging = null
-    this.isMaximized = false
     this.isMouseDragging = false
     this.opacity = 0.5
     this.dOpacity = 0.1
     this.menuBarVisible = false
+  }
 
-    this.loadFile('ipc-renderer/index.html')
-    this.setAlwaysOnTop(true)
-    // this.webContents.openDevTools()
+  setPositionAndSize() {
+    const windowPosition = this.store.get('window-position')
+    if (windowPosition) {
+      this.setPosition(windowPosition.x, windowPosition.y)
+    }
 
-    setInterval(() => {
-      try {
-        this.update()
-      } catch (e) {}
-    }, 100)
+    const windowSize = this.store.get('window-size')
+    if (windowSize) {
+      this.setSize(windowSize.width, windowSize.height)
+    }
   }
 
   update() {
-    let mousePosition = screen.getCursorScreenPoint()
-    let bounds = this.getBounds()
-    let margin = 20
-    if (mousePosition.x < bounds.x - margin || mousePosition.x > bounds.x + bounds.width + margin || mousePosition.y < bounds.y - margin || mousePosition.y > bounds.y + bounds.height + margin) {
-      this.webContents.send('mouse-outside')
-    } else {
-      this.webContents.send('mouse-inside')
+    if (!this.isDestroyed()) {
+      const mousePosition = screen.getCursorScreenPoint()
+      const bounds = this.getBounds()
+      const margin = 20
+      const isMouseOutside = 
+        mousePosition.x < bounds.x - margin || 
+        mousePosition.x > bounds.x + bounds.width + margin || 
+        mousePosition.y < bounds.y - margin || 
+        mousePosition.y > bounds.y + bounds.height + margin
+
+      this.webContents.send(isMouseOutside ? 'mouse-outside' : 'mouse-inside')
     }
   }
 
@@ -118,30 +125,23 @@ module.exports = class MainWindow extends BrowserWindow {
   toggleFullScreen() {
     if (this.isMaximized) {
       this.onMinimize()
-      this.setIgnoreMouseEvents(false)
     } else {
       this.onMaximize()
-      if (this.opacity == 1) {
-        this.setIgnoreMouseEvents(false)
-      } else {
-        this.setIgnoreMouseEvents(true)
-      }
     }
+    this.setIgnoreMouseEvents(this.isMaximized && this.opacity !== 1)
+  }
+
+  adjustOpacity(delta) {
+    this.opacity = Math.max(0.1, Math.min(1, this.opacity + delta))
+    this.webContents.send('update-opacity', this.opacity)
+    this.setIgnoreMouseEvents(this.isMaximized && this.opacity !== 1)
   }
 
   decreaseOpacity() {
-    this.opacity -= this.dOpacity
-    if (this.opacity < 0.1) this.opacity = 0.1
-    this.webContents.send('update-opacity', this.opacity)
-    this.setIgnoreMouseEvents(this.isMaximized)
+    this.adjustOpacity(-this.dOpacity)
   }
 
   increaseOpacity() {
-    this.opacity += this.dOpacity
-    if (this.opacity > 1) this.opacity = 1
-    this.webContents.send('update-opacity', this.opacity)
-    if (Math.abs(this.opacity - 1) < 0.01) {
-      this.setIgnoreMouseEvents(false)
-    }
+    this.adjustOpacity(this.dOpacity)
   }
 }

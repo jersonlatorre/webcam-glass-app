@@ -53,6 +53,7 @@ window.onload = () => {
   hideUI()
   updateControllers()
   updateCorners()
+  setupEvents()
 }
 
 document.addEventListener('mousedown', (e) => {
@@ -78,12 +79,18 @@ document.addEventListener('dblclick', (e) => {
 async function setup() {
   createCanvas(windowWidth, windowHeight)
 
-  panel = new Pane({ container: document.querySelector('#tweak-container'), title: 'Settings', expanded: false })
-
-  panel.addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } }).on('change', (e) => {
-    updateControllers()
-    ipcRenderer.send('save-config', config)
+  panel = new Pane({
+    container: document.querySelector('#tweak-container'),
+    title: 'Settings',
+    expanded: false,
   })
+
+  panel
+    .addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } })
+    .on('change', (e) => {
+      updateControllers()
+      ipcRenderer.send('save-config', config)
+    })
 
   panel.addInput(config, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
     ipcRenderer.send('update-opacity', config.opacity)
@@ -119,6 +126,8 @@ async function setup() {
   panel.addButton({ title: 'Exit' }).on('click', () => {
     ipcRenderer.send('exit')
   })
+
+  adjustPanelWidth()
 }
 
 function draw() {
@@ -153,6 +162,8 @@ function windowResized() {
     width: windowWidth,
     height: windowHeight,
   })
+
+  adjustPanelWidth()
 }
 
 function noTouchPanel(e) {
@@ -160,7 +171,12 @@ function noTouchPanel(e) {
   let x = e.x
   let y = e.y
 
-  return x < panelBounds.x || x > panelBounds.x + panelBounds.width || y < panelBounds.y || y > panelBounds.y + panelBounds.height
+  return (
+    x < panelBounds.x ||
+    x > panelBounds.x + panelBounds.width ||
+    y < panelBounds.y ||
+    y > panelBounds.y + panelBounds.height
+  )
 }
 
 function updateControllers() {
@@ -196,7 +212,14 @@ function updateCorners() {
 }
 
 function updateFilters() {
-  document.getElementsByTagName('canvas')[0].style.filter = 'brightness(' + config.brightnessLevel + ') saturate(' + config.saturationLevel + ') contrast(' + config.contrastLevel + ')'
+  document.getElementsByTagName('canvas')[0].style.filter =
+    'brightness(' +
+    config.brightnessLevel +
+    ') saturate(' +
+    config.saturationLevel +
+    ') contrast(' +
+    config.contrastLevel +
+    ')'
 }
 
 function createVideoCapture(deviceId = '') {
@@ -219,4 +242,73 @@ async function getCameraDevices() {
   if (!('mediaDevices' in navigator)) return []
   const devices = await navigator.mediaDevices.enumerateDevices()
   return devices.filter((device) => device.kind === 'videoinput')
+}
+
+function setupEvents() {
+  // eventos IPC
+  const ipcEvents = {
+    'mouse-inside': showUI,
+    'mouse-outside': hideUI,
+    'update-opacity': (e, opacity) => {
+      config.opacity = opacity
+      panel.refresh()
+    },
+    'update-config': (e, c) => {
+      Object.assign(config, c)
+      createVideoCapture(config.cameraId)
+      panel.refresh()
+    },
+    maximize: () => {
+      isMaximized = true
+      hideUI()
+    },
+    minimize: () => {
+      isMaximized = false
+      updateControllers()
+    },
+  }
+
+  // registrar eventos IPC
+  Object.entries(ipcEvents).forEach(([event, handler]) => {
+    ipcRenderer.on(event, handler)
+  })
+
+  // eventos del DOM
+  const domEvents = {
+    mousemove: (e) => {
+      document.body.style.cursor = noTouchPanel(e) ? 'move' : 'default'
+    },
+    mousedown: (e) => {
+      if (noTouchPanel(e)) {
+        ipcRenderer.send('mousedown', { x: e.screenX | 0, y: e.screenY | 0 })
+      }
+    },
+    mousemove: (e) => {
+      if (noTouchPanel(e)) {
+        ipcRenderer.send('mousemove', { x: e.screenX | 0, y: e.screenY | 0 })
+      }
+    },
+    mouseup: () => {
+      ipcRenderer.send('mouseup')
+    },
+    // 'dblclick': () => ipcRenderer.send('dblclick')
+  }
+
+  // registrar eventos del DOM
+  Object.entries(domEvents).forEach(([event, handler]) => {
+    if (event === 'mousemove' && !document.body.onmousemove) {
+      document.body.addEventListener(event, handler)
+    } else {
+      document.addEventListener(event, handler)
+    }
+  })
+}
+
+function adjustPanelWidth() {
+  const container = document.querySelector('#tweak-container')
+  const maxWidth = 300
+  const padding = 20
+  const newWidth = Math.min(windowWidth - padding, maxWidth)
+  container.style.width = `${newWidth}px`
+  panel.refresh()
 }

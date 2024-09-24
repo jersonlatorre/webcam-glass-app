@@ -13,68 +13,37 @@ function createWindow() {
   if (mainWindow) return
   mainWindow = new MainWindow()
 
-  ipcMain.on('log', (e, value) => {
-    console.log(value)
+  // event handlers
+  const eventHandlers = {
+    log: (e, value) => console.log(value),
+    'update-opacity': (e, opacity) => mainWindow.opacity = opacity,
+    mousedown: (e, position) => mainWindow.onMouseDown(position),
+    mouseup: () => mainWindow.onMouseUp(),
+    mousemove: (e, position) => mainWindow.onMouseMove(position),
+    dblclick: () => mainWindow.onDoubleClick(),
+    'renderer-loaded': () => mainWindow.updateConfig(store.get('config')),
+    fullscreen: () => mainWindow.toggleFullScreen(),
+    'window-resized': (e, size) => mainWindow.onWindowResized(size),
+    exit: () => app.quit(),
+    'save-config': (e, config) => store.set('config', config)
+  }
+
+  // register events
+  Object.entries(eventHandlers).forEach(([event, handler]) => {
+    ipcMain.on(event, handler)
   })
 
-  ipcMain.on('update-opacity', (e, opacity) => {
-    mainWindow.opacity = opacity
-  })
+  // register shortcuts
+  const shortcuts = {
+    'CommandOrControl+Alt+F': () => mainWindow.toggleFullScreen(),
+    'CommandOrControl+Alt+1': () => mainWindow.decreaseOpacity(),
+    'CommandOrControl+Alt+2': () => mainWindow.increaseOpacity(),
+    'Ctrl+Alt+Q': () => app.quit(),
+    'Ctrl+Esc': () => app.quit()
+  }
 
-  ipcMain.on('mousedown', (e, position) => {
-    mainWindow.onMouseDown(position)
-  })
-
-  ipcMain.on('mouseup', (e) => {
-    mainWindow.onMouseUp()
-  })
-
-  ipcMain.on('mousemove', (e, position) => {
-    mainWindow.onMouseMove(position)
-  })
-
-  ipcMain.on('dblclick', (e) => {
-    mainWindow.onDoubleClick()
-  })
-
-  ipcMain.on('renderer-loaded', () => {
-    mainWindow.updateConfig(store.get('config'))
-  })
-
-  ipcMain.on('fullscreen', () => {
-    mainWindow.toggleFullScreen()
-  })
-
-  ipcMain.on('window-resized', (e, size) => {
-    mainWindow.onWindowResized(size)
-  })
-
-  ipcMain.on('exit', () => {
-    app.quit()
-  })
-
-  ipcMain.on('save-config', (e, config) => {
-    store.set('config', config)
-  })
-
-  globalShortcut.register('CommandOrControl+Alt+F', () => {
-    mainWindow.toggleFullScreen()
-  })
-
-  globalShortcut.register('CommandOrControl+Alt+1', () => {
-    mainWindow.decreaseOpacity()
-  })
-
-  globalShortcut.register('CommandOrControl+Alt+2', () => {
-    mainWindow.increaseOpacity()
-  })
-
-  globalShortcut.register('Ctrl+Alt+Q', () => {
-    app.quit()
-  })
-
-  globalShortcut.register('Ctrl+Esc', () => {
-    app.quit()
+  Object.entries(shortcuts).forEach(([accelerator, callback]) => {
+    globalShortcut.register(accelerator, callback)
   })
 }
 

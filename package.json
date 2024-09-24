@@ -10,10 +10,10 @@
   "main": "ipc-main/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/electron .",
-    "buildWindows": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=dist/windows --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
-    "buildMacOS": "./node_modules/.bin/electron-packager --electron-version='11.1.0' --platform='darwin' --overwrite . --out=dist/macOS --icon=build/icon.png",
-    "buildLinux": "./node_modules/.bin/electron-builder"
+    "start": "electron .",
+    "buildWindows": "electron-packager --electron-version='11.1.0' --asar --platform='win32' --arch=x64 --icon=build/icon.ico --prune=true --out=dist/windows --version-string.CompanyName=Plug --version-string.ProductName='Glass' --overwrite .",
+    "buildMacOS": "electron-packager --electron-version='11.1.0' --platform='darwin' --overwrite . --out=dist/macOS --icon=build/icon.png",
+    "buildLinux": "electron-builder"
   },
   "build": {
     "appId": "997044c5-1343-4138-b561-442d35a32460",
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "electron-store": "7.0.2",
-    "tweakpane": "^3.1.0"
+    "tweakpane": "^3.1.0",
+    "uil": "^4.3.0"
   }
 }
