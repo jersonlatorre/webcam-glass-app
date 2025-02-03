@@ -19,35 +19,6 @@ document.body.addEventListener('mousemove', (e) => {
   document.body.style.cursor = noTouchPanel(e) ? 'move' : 'default'
 })
 
-ipcRenderer.on('mouse-inside', (e) => {
-  showUI()
-})
-
-ipcRenderer.on('mouse-outside', (e) => {
-  hideUI()
-})
-
-ipcRenderer.on('update-opacity', (e, opacity) => {
-  config.opacity = opacity
-  panel.refresh()
-})
-
-ipcRenderer.on('update-config', (e, c) => {
-  Object.assign(config, c)
-  createVideoCapture(config.cameraId)
-  panel.refresh()
-})
-
-ipcRenderer.on('maximize', (e) => {
-  isMaximized = true
-  hideUI()
-})
-
-ipcRenderer.on('minimize', (e) => {
-  isMaximized = false
-  updateControllers()
-})
-
 window.onload = () => {
   ipcRenderer.send('renderer-loaded')
   hideUI()
@@ -85,12 +56,10 @@ async function setup() {
     expanded: false,
   })
 
-  panel
-    .addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } })
-    .on('change', (e) => {
-      updateControllers()
-      ipcRenderer.send('save-config', config)
-    })
+  panel.addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } }).on('change', (e) => {
+    updateControllers()
+    ipcRenderer.send('save-config', config)
+  })
 
   panel.addInput(config, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
     ipcRenderer.send('update-opacity', config.opacity)
@@ -171,12 +140,7 @@ function noTouchPanel(e) {
   let x = e.x
   let y = e.y
 
-  return (
-    x < panelBounds.x ||
-    x > panelBounds.x + panelBounds.width ||
-    y < panelBounds.y ||
-    y > panelBounds.y + panelBounds.height
-  )
+  return x < panelBounds.x || x > panelBounds.x + panelBounds.width || y < panelBounds.y || y > panelBounds.y + panelBounds.height
 }
 
 function updateControllers() {
@@ -213,13 +177,7 @@ function updateCorners() {
 
 function updateFilters() {
   document.getElementsByTagName('canvas')[0].style.filter =
-    'brightness(' +
-    config.brightnessLevel +
-    ') saturate(' +
-    config.saturationLevel +
-    ') contrast(' +
-    config.contrastLevel +
-    ')'
+    'brightness(' + config.brightnessLevel + ') saturate(' + config.saturationLevel + ') contrast(' + config.contrastLevel + ')'
 }
 
 function createVideoCapture(deviceId = '') {
@@ -296,7 +254,7 @@ function setupEvents() {
 
   // registrar eventos del DOM
   Object.entries(domEvents).forEach(([event, handler]) => {
-    if (event === 'mousemove' && !document.body.onmousemove) {
+    if (event === 'mousemove') {
       document.body.addEventListener(event, handler)
     } else {
       document.addEventListener(event, handler)

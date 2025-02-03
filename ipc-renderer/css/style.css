@@ -42,10 +42,15 @@ canvas {
   background-size: cover;
 }
 
-#handler-top-left {
-  top: 0;
-  left: 0;
-  background-image: url(../assets/top-left.svg);
+#handler-top-left::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
 }
 
 #handler-top-right {

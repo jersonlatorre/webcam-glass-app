@@ -30,6 +30,7 @@ module.exports = class MainWindow extends BrowserWindow {
     
     this.on('closed', () => {
       clearInterval(this.updateInterval)
+      this.removeAllListeners()
     })
   }
 
