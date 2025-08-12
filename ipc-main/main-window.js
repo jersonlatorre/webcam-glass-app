@@ -1,5 +1,7 @@
-const { BrowserWindow, screen } = require('electron')
+const { BrowserWindow } = require('electron')
 const Store = require('electron-store')
+
+const { screen } = require('electron')
 
 module.exports = class MainWindow extends BrowserWindow {
   constructor() {
@@ -15,9 +17,9 @@ module.exports = class MainWindow extends BrowserWindow {
       opacity: true,
       frame: false,
       webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
+        nodeIntegration: false,
+        contextIsolation: true,
+        preload: require('path').join(__dirname, '../ipc-renderer/preload.js'),
       },
     })
 
@@ -26,10 +28,7 @@ module.exports = class MainWindow extends BrowserWindow {
     this.loadFile('ipc-renderer/index.html')
     this.setAlwaysOnTop(true)
     
-    this.updateInterval = setInterval(() => this.update(), 100)
-    
     this.on('closed', () => {
-      clearInterval(this.updateInterval)
       this.removeAllListeners()
     })
   }
@@ -57,40 +56,8 @@ module.exports = class MainWindow extends BrowserWindow {
     }
   }
 
-  update() {
-    if (!this.isDestroyed()) {
-      const mousePosition = screen.getCursorScreenPoint()
-      const bounds = this.getBounds()
-      const margin = 20
-      const isMouseOutside = 
-        mousePosition.x < bounds.x - margin || 
-        mousePosition.x > bounds.x + bounds.width + margin || 
-        mousePosition.y < bounds.y - margin || 
-        mousePosition.y > bounds.y + bounds.height + margin
-
-      this.webContents.send(isMouseOutside ? 'mouse-outside' : 'mouse-inside')
-    }
-  }
-
   updateConfig(config) {
     this.webContents.send('update-config', config)
-  }
-
-  onMaximize() {
-    this.isMaximized = true
-    this.setIgnoreMouseEvents(true)
-    this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
-    this.setSize(screen.getPrimaryDisplay().bounds.width, screen.getPrimaryDisplay().bounds.height)
-    this.setPosition(screen.getPrimaryDisplay().bounds.x, screen.getPrimaryDisplay().bounds.y)
-    this.webContents.send('maximize')
-  }
-
-  onMinimize() {
-    this.isMaximized = false
-    this.setIgnoreMouseEvents(false)
-    this.setSize(this.savedWindowBoundsForTogglingFullScreen.width, this.savedWindowBoundsForTogglingFullScreen.height)
-    this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
-    this.webContents.send('minimize')
   }
 
   onMouseDown(position) {
@@ -125,9 +92,19 @@ module.exports = class MainWindow extends BrowserWindow {
 
   toggleFullScreen() {
     if (this.isMaximized) {
-      this.onMinimize()
+      this.isMaximized = false
+      this.setIgnoreMouseEvents(false)
+      this.setSize(this.savedWindowBoundsForTogglingFullScreen.width, this.savedWindowBoundsForTogglingFullScreen.height)
+      this.setPosition(this.savedWindowBoundsForTogglingFullScreen.x, this.savedWindowBoundsForTogglingFullScreen.y)
+      this.webContents.send('minimize')
     } else {
-      this.onMaximize()
+      this.isMaximized = true
+      this.setIgnoreMouseEvents(true)
+      this.savedWindowBoundsForTogglingFullScreen = this.getBounds()
+      const { width, height, x, y } = screen.getPrimaryDisplay().bounds
+      this.setSize(width, height)
+      this.setPosition(x, y)
+      this.webContents.send('maximize')
     }
     this.setIgnoreMouseEvents(this.isMaximized && this.opacity !== 1)
   }

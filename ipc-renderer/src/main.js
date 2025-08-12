@@ -1,10 +1,11 @@
-const ipcRenderer = require('electron').ipcRenderer
 const Pane = require('tweakpane').Pane
+const { showUI, hideUI, updateCorners, updateFilters, adjustPanelWidth, noTouchPanel } = require('./modules/ui')
+const { createVideoCapture, getCameraOptions } = require('./modules/camera')
+const { setupEvents } = require('./modules/events')
 
 let video
 let panel
 let isVideoLoaded = false
-let isMaximized = false
 
 const config = {
   opacity: 0.5,
@@ -15,37 +16,14 @@ const config = {
   cameraId: '',
 }
 
-document.body.addEventListener('mousemove', (e) => {
-  document.body.style.cursor = noTouchPanel(e) ? 'move' : 'default'
-})
-
 window.onload = () => {
-  ipcRenderer.send('renderer-loaded')
+  window.electron.send('renderer-loaded')
   hideUI()
   updateControllers()
-  updateCorners()
-  setupEvents()
+  setupEvents(panel, config, () => {
+    video = createVideoCapture({ video: { deviceId: config.cameraId } }, onVideoLoaded)
+  })
 }
-
-document.addEventListener('mousedown', (e) => {
-  if (noTouchPanel(e)) {
-    ipcRenderer.send('mousedown', { x: e.screenX | 0, y: e.screenY | 0 })
-  }
-})
-
-document.addEventListener('mousemove', (e) => {
-  if (noTouchPanel(e)) {
-    ipcRenderer.send('mousemove', { x: e.screenX | 0, y: e.screenY | 0 })
-  }
-})
-
-document.addEventListener('mouseup', (e) => {
-  ipcRenderer.send('mouseup')
-})
-
-document.addEventListener('dblclick', (e) => {
-  // ipcRenderer.send('dblclick')
-})
 
 async function setup() {
   createCanvas(windowWidth, windowHeight)
@@ -56,56 +34,51 @@ async function setup() {
     expanded: false,
   })
 
-  panel.addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } }).on('change', (e) => {
+  panel.addInput(config, 'panelShape', { label: 'Shape', options: { oval: 'oval', rectangle: 'rectangle' } }).on('change', () => {
     updateControllers()
-    ipcRenderer.send('save-config', config)
+    window.electron.send('save-config', config)
   })
 
-  panel.addInput(config, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', (e) => {
-    ipcRenderer.send('update-opacity', config.opacity)
-    ipcRenderer.send('save-config', config)
+  panel.addInput(config, 'opacity', { label: 'Opacity:', min: 0.1, max: 1, step: 0.1 }).on('change', () => {
+    window.electron.send('update-opacity', config.opacity)
+    window.electron.send('save-config', config)
   })
 
-  panel.addInput(config, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'brightnessLevel', { label: 'Brightness', min: 0.2, max: 3, step: 0.1 }).on('change', () => {
     updateControllers()
-    ipcRenderer.send('save-config', config)
+    window.electron.send('save-config', config)
   })
 
-  panel.addInput(config, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'saturationLevel', { label: 'Saturation', min: 0, max: 2, step: 0.1 }).on('change', () => {
     updateControllers()
-    ipcRenderer.send('save-config', config)
+    window.electron.send('save-config', config)
   })
 
-  panel.addInput(config, 'contrastLevel', { label: 'Contrast', min: 0.3, max: 2, step: 0.1 }).on('change', (e) => {
+  panel.addInput(config, 'contrastLevel', { label: 'Contrast', min: 0.3, max: 2, step: 0.1 }).on('change', () => {
     updateControllers()
-    ipcRenderer.send('save-config', config)
+    window.electron.send('save-config', config)
   })
 
   panel.addInput(config, 'cameraId', { label: 'Camera', options: await getCameraOptions() }).on('change', (e) => {
-    createVideoCapture(e.value)
-    ipcRenderer.send('save-config', config)
+    video = createVideoCapture({ video: { deviceId: e.value } }, onVideoLoaded)
+    window.electron.send('save-config', config)
   })
 
   panel.addSeparator()
 
   panel.addButton({ title: 'Fullscreen' }).on('click', () => {
-    ipcRenderer.send('fullscreen')
+    window.electron.send('fullscreen')
   })
 
   panel.addButton({ title: 'Exit' }).on('click', () => {
-    ipcRenderer.send('exit')
+    window.electron.send('exit')
   })
 
-  adjustPanelWidth()
+  adjustPanelWidth(windowWidth, panel)
 }
 
 function draw() {
   clear()
-
-  if (isMaximized) {
-    hideUI()
-    updateCorners()
-  }
 
   if (isVideoLoaded) {
     tint(255, 255 * config.opacity)
@@ -127,146 +100,15 @@ function onVideoLoaded() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight)
-  ipcRenderer.send('window-resized', {
+  window.electron.send('window-resized', {
     width: windowWidth,
     height: windowHeight,
   })
 
-  adjustPanelWidth()
-}
-
-function noTouchPanel(e) {
-  let panelBounds = document.querySelector('#tweak-container').getBoundingClientRect()
-  let x = e.x
-  let y = e.y
-
-  return x < panelBounds.x || x > panelBounds.x + panelBounds.width || y < panelBounds.y || y > panelBounds.y + panelBounds.height
+  adjustPanelWidth(windowWidth, panel)
 }
 
 function updateControllers() {
-  updateCorners()
-  updateFilters()
-}
-
-function showUI() {
-  document.querySelector('#tweak-container').style.opacity = 1
-  document.querySelector('#handlers').style.opacity = 1
-}
-
-function hideUI() {
-  document.querySelector('#tweak-container').style.opacity = 0
-  document.querySelector('#handlers').style.opacity = 0
-}
-
-function updateCorners() {
-  if (isMaximized) {
-    document.getElementsByTagName('canvas')[0].style.borderRadius = 0
-    return
-  }
-
-  switch (config.panelShape) {
-    case 'oval':
-      document.getElementsByTagName('canvas')[0].style.borderRadius = '50%'
-      break
-
-    case 'rectangle':
-      document.getElementsByTagName('canvas')[0].style.borderRadius = '20px'
-      break
-  }
-}
-
-function updateFilters() {
-  document.getElementsByTagName('canvas')[0].style.filter =
-    'brightness(' + config.brightnessLevel + ') saturate(' + config.saturationLevel + ') contrast(' + config.contrastLevel + ')'
-}
-
-function createVideoCapture(deviceId = '') {
-  const constraints = deviceId ? { audio: false, video: { deviceId } } : VIDEO
-  video?.remove()
-  video = createCapture(constraints, onVideoLoaded)
-  video.hide()
-}
-
-async function getCameraOptions() {
-  const cameras = await getCameraDevices()
-  return cameras.reduce((camOptions, device) => {
-    const label = device.label || 'Camera ' + device.deviceId
-    camOptions[label] = device.deviceId
-    return camOptions
-  }, {})
-}
-
-async function getCameraDevices() {
-  if (!('mediaDevices' in navigator)) return []
-  const devices = await navigator.mediaDevices.enumerateDevices()
-  return devices.filter((device) => device.kind === 'videoinput')
-}
-
-function setupEvents() {
-  // eventos IPC
-  const ipcEvents = {
-    'mouse-inside': showUI,
-    'mouse-outside': hideUI,
-    'update-opacity': (e, opacity) => {
-      config.opacity = opacity
-      panel.refresh()
-    },
-    'update-config': (e, c) => {
-      Object.assign(config, c)
-      createVideoCapture(config.cameraId)
-      panel.refresh()
-    },
-    maximize: () => {
-      isMaximized = true
-      hideUI()
-    },
-    minimize: () => {
-      isMaximized = false
-      updateControllers()
-    },
-  }
-
-  // registrar eventos IPC
-  Object.entries(ipcEvents).forEach(([event, handler]) => {
-    ipcRenderer.on(event, handler)
-  })
-
-  // eventos del DOM
-  const domEvents = {
-    mousemove: (e) => {
-      document.body.style.cursor = noTouchPanel(e) ? 'move' : 'default'
-    },
-    mousedown: (e) => {
-      if (noTouchPanel(e)) {
-        ipcRenderer.send('mousedown', { x: e.screenX | 0, y: e.screenY | 0 })
-      }
-    },
-    mousemove: (e) => {
-      if (noTouchPanel(e)) {
-        ipcRenderer.send('mousemove', { x: e.screenX | 0, y: e.screenY | 0 })
-      }
-    },
-    mouseup: () => {
-      ipcRenderer.send('mouseup')
-    },
-    // 'dblclick': () => ipcRenderer.send('dblclick')
-  }
-
-  // registrar eventos del DOM
-  Object.entries(domEvents).forEach(([event, handler]) => {
-    if (event === 'mousemove') {
-      document.body.addEventListener(event, handler)
-    } else {
-      document.addEventListener(event, handler)
-    }
-  })
-}
-
-function adjustPanelWidth() {
-  const container = document.querySelector('#tweak-container')
-  const maxWidth = 300
-  const padding = 20
-  const newWidth = Math.min(windowWidth - padding, maxWidth)
-  container.style.width = `${newWidth}px`
-  panel.refresh()
+  updateCorners(config.panelShape)
+  updateFilters(config.brightnessLevel, config.saturationLevel, config.contrastLevel)
 }
